@@ -159,7 +159,8 @@ void mainScreen(boolean refreshAll=false)
 
   myGLCD.setColor(0, 0, 0);
   myGLCD.fillRect(315, 10, 360, 205);                // Apagar todo el cuadro de temperaturas y Temporizadores
-
+  myGLCD.fillRect(10, 155, 195, 205);                // Apagar todo el cuadro de Alarmas
+ 
   myGLCD.setColor(0, 255, 0);  
   myGLCD.printNumF(tempC, 2, 316, 14);            // Temperatura agua
   myGLCD.printNumF(tempH, 2, 316, 42);            // Temperatura disipador

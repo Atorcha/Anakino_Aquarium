@@ -95,8 +95,8 @@ char buffer[70];
 //****************************************************************************************************
 // Pines 0 y 1 reservados para el puerto serial 0.
 const int alarmPin = 0;          // Pin que acciona la alarma
-// Pines 2, 3, 4, 5, 6  reservado para el  Touch.
-const int fanPin = 7;          // Pin que controla la velocidad de ventilador del disipador // Conexion  nº 3 azul
+// Pines 2, 3, 4, 5, 6     reservado para el  Touch.
+const int fanPin = 7;      // Pin que controla la velocidad de ventilador del disipador // Conexion  nº 3 azul
 const int PWMLuz = 8;      // Pin que controla PWM del  balastro dimeable  // Conexion nº 1 amarillo
 //const int Pin = 9;       // Pin libre
 //const int Pin = 11;      // Pin libre
@@ -115,14 +115,14 @@ const int ledPinMoon = 12; // Pin que activa los leds de luz noturna // Conexion
 
 // *******************  Placa de reles ************************
 
-const int calentadorPin  = 43;  // Rele 1 => Enchufe 1 Cable Naranja ****** Pin que activa el calentador 
-const int ReleLuz = 44;         // Rele 2 => Enchufe 2 => Naranja/negro *** Pin que activa el rele de la luz
-const int temporizador1 = 45;   // Rele 3 => Enchufe 3 => Amarillo/negro ** Pin de activacion de timer 1 ( bomba aire )  
-const int temporizador2 = 46;   // Rele 4 => Enchufe 4  ******************* Pin de activacion de timer 2 ( Lampara UV )
-const int temporizador3 = 47;   // Rele 4 => Enchufe 4 => Negro enfundado * Pin de activacion de timer 3 
-const int temporizador4 = 48;   // Rele 5 => Verde/negro ****************** Pin de activacion de timer 4 
-const int temporizador5 = 49;   // Rele 6 => Verde ************************ Pin de activacion de timer 5  
-const int comederopin = 50;     // Rele 7 =>            *******             Pin de comedero
+const int calentadorPin  = 43;  // Rele 1 => Enchufe 1  ****** Pin que activa el calentador 
+const int ReleLuz = 44;         // Rele 2 => Enchufe 2  ****** Pin que activa el rele de la luz
+const int temporizador1 = 45;   // Rele 3 => Enchufe 3  ****** Pin de activacion de timer 1 ( bomba aire )  
+const int temporizador2 = 46;   // Rele 4 => Enchufe 4  ****** Pin de activacion de timer 2 ( Lampara UV )
+const int temporizador3 = 47;   // Rele 4 => Enchufe 4  ****** Pin de activacion de timer 3 
+const int temporizador4 = 48;   // Rele 5 => Enchufe XX ****** Pin de activacion de timer 4 
+const int temporizador5 = 49;   // Rele 6 => Enchufe XX ****** Pin de activacion de timer 5  
+const int comederopin = 50;     // Rele 7 =>            ****** Pin de comedero
 
 // ******************************************************************************************
 
@@ -330,17 +330,16 @@ boolean Ethernet_Shield = true; // Cambiar a "false" en caso de no tener una eth
 char data0[] = "T.Agua";
 char data1[] = "T.Disip";
 char data2[] = "T.Habit";
-char data3[] = "pH";
-char data4[] = "Calent";
-char data5[] = "Fan";
-char data6[] = "UV";
-char data7[] = "Aire";
-char data8[] = "T3";
-char data9[] = "T4";
-char data10[] = "T5";
-char data11[] = "Crono";
-char data12[] = "Luz_Blanca";
-char data13[] = "Luz_Luna";
+char data3[] = "Calent";
+char data4[] = "Fan";
+char data5[] = "UV";
+char data6[] = "Aire";
+char data7[] = "T3";
+char data8[] = "T4";
+char data9[] = "Crono";
+char data10[] = "Luz_Blanca";
+char data11[] = "Luz_luna";
+char data12[] = "Rele_Luz";
 /*char data14[] = "L.Blanco";
 char data15[] = "15";
 char data16[] = "16";
@@ -364,15 +363,15 @@ XivelyDatastream(data9, strlen(data9), DATASTREAM_INT),
 XivelyDatastream(data10, strlen(data10), DATASTREAM_INT),
 XivelyDatastream(data11, strlen(data11), DATASTREAM_INT),
 XivelyDatastream(data12, strlen(data12), DATASTREAM_INT),
-XivelyDatastream(data13, strlen(data13), DATASTREAM_INT),
-/*XivelyDatastream(data14, strlen(data14), DATASTREAM_INT),
+/*XivelyDatastream(data13, strlen(data13), DATASTREAM_INT),
+XivelyDatastream(data14, strlen(data14), DATASTREAM_INT),
 XivelyDatastream(data15, strlen(data15), DATASTREAM_INT),
 XivelyDatastream(data16, strlen(data16), DATASTREAM_INT),
 XivelyDatastream(data17, strlen(data17), DATASTREAM_INT)
 */
 };
 
-XivelyFeed feed(157388679, datastreams, 14); // numero de datastreams
+XivelyFeed feed(157388679, datastreams, 13); // numero de datastreams
 EthernetClient client;
 XivelyClient xivelyclient(client);
 char xivelyKey[]= "IztIl4jRHL0vLd6fFkwnXwLZ7YbuAi6jmr8kAXPO5RxrDkQQ"; // replace your xively api key here
