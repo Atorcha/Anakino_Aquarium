@@ -63,9 +63,9 @@ void processMyTouch()
         if  ((y>=dosA[1]) && (y<=dosA[3]))           // seleciona EEPROM
         {
           waitForIt(dosA[0], dosA[1], dosA[2], dosA[3]);
-          dispScreen=8;
+          dispScreen=6;
           clearScreen();
-         // menu_eeprom();
+          menu_eeprom();
         } 
         if  ((y>=aFeed[1]) && (y<=aFeed[3]))             //selecciona comedero
          {
@@ -429,7 +429,63 @@ void processMyTouch()
         } 
     
     break;
+    
+    case 6:  ///--------------------------------------------------Pantalla MENU EEPROM----------------------------- PAntalla 6
+      if ((x>=tanD[0]) && (x<=tanD[2]))               //first column
+      {
+        if ((y>=tanD[1]) && (y<=tanD[3]))             //presiona borrar
+        {
+          waitForIt(tanD[0], tanD[1], tanD[2], tanD[3]);
+          dispScreen=7;
+          clearScreen();
+        borrar_eeprom_screen(); 
+        }
 
+        if ((y>=tesT[1]) && (y<=tesT[3]))              // presiona grabar
+        {
+          waitForIt(tesT[0], tesT[1], tesT[2], tesT[3]);
+          dispScreen=1;
+          clearScreen();
+          menuScreen();
+        }  
+      } 
+      if ((y>=menU[1]) && (y<=menU[3]) && (x>=menU[0]) && (x<=menU[2]))
+      {
+        waitForIt(menU[0], menU[1], menU[2], menU[3]); //volta ao menu
+        dispScreen=1;
+        clearScreen();
+        menuScreen();
+      }  
+
+        
+    break;
+    
+    case 7:  //---------------------------Borrar eeprom--------
+    
+          if ((y>=iniC[1]) && (y<=iniC[3]) && (x>=iniC[0]) && (x<=iniC[2]))
+      {
+        waitForIt(iniC[0], iniC[1], iniC[2], iniC[3]); //volta ao inicio
+        dispScreen=0;
+        clearScreen();
+        mainScreen(true);
+      }    
+      if ((x>=menU[0]) && (x<=menU[2]) && (y>=menU[1]) && (y<=menU[3]))           /// vuelta al menu
+      {
+        waitForIt(menU[0], menU[1], menU[2], menU[3]);
+        dispScreen=1;
+        clearScreen();
+        menuScreen(); 
+      }   
+  if ((x>=modL[0]-20) && (x<=modL[2]+20) && (y>=modL[1]) && (y<=modL[3]))           // Boton borrar
+        {
+          waitForIt(modL[0], modL[1], modL[2], modL[3]);
+          borrar_eeprom();
+          asm volatile ("  jmp 0"); 
+        }
+    
+    break;
+    
+    
     case 16:             //---------------------------------------Pantalla en blanco---------------------------------
       if ((x>=menU[0]) && (x<=menU[2]) && (y>=menU[1]) && (y<=menU[3]))           /// vuelta al menu
       {
@@ -1562,16 +1618,9 @@ void processMyTouch()
           salvar_estado_EEPROM();
         }      
 
-      if ((x>=tanD[0]) && x<=tanD[2] && (y>=tanD[1]) && (y<=tanD[3]))           // Testar leds
-      {
-        waitForIt(tanD[0], tanD[1], tanD[2], tanD[3]);   
-        dispScreen=25;
-        clearScreen();
-        escolher_teste();
-      }
       if ((x>=tesT[0]) && x<=tesT[2] && (y>=tesT[1]) && (y<=tesT[3]))           // Configurar fotoperiodo
       {
-      pwm_percent_t = pwm_percent;  
+
       led_on_minuto_t =led_on_minuto; 
       led_on_hora_t = led_on_hora;
       led_off_minuto_t = led_off_minuto; 
@@ -1643,8 +1692,7 @@ void processMyTouch()
           led_off_minuto = led_off_minuto_t; 
           led_off_hora = led_off_hora_t;
           amanecer_anochecer = amanecer_anochecer_t;
-          pwm_percent = pwm_percent_t;
-          pwm_pre_definido = map(pwm_percent, 0, 100, 0, 255);
+
        
 
 
@@ -1752,23 +1800,7 @@ void processMyTouch()
             amanecer_anochecer_t = 240;
           }
           fotoperiodo();
-        }
-        
-         else if((x >= 275) && (x <= 300) && (y >= 175) && (y <= 200)) // PWM +
-            {
-              pwm_percent_t += 5;
-              if(pwm_percent_t > 100){ pwm_percent_t = 0;}
-              if(pwm_percent_t < 0) {pwm_percent_t = 100;}
-               
-              fotoperiodo(); 
-            }
-            else if((x >= 185) && (x <= 210) && (y >= 175) && (y <= 200)) // PWM -
-            {
-              pwm_percent_t -= 5;
-              if(pwm_percent_t > 100){ pwm_percent_t = 0;}
-              if(pwm_percent_t < 0) {pwm_percent_t = 100;}
-              fotoperiodo();
-            }                   
+        }                   
       break; 
 
     }

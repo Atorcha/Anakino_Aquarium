@@ -100,7 +100,7 @@ const int fanPin = 7;      // Pin que controla la velocidad de ventilador del di
 const int PWMLuz = 8;      // Pin que controla PWM del  balastro dimeable  // Conexion nº 1 amarillo
 //const int Pin = 9;       // Pin libre
 //const int Pin = 11;      // Pin libre
-const int ledPinMoon = 12; // Pin que activa los leds de luz noturna // Conexion nº 2 Verde
+const int ledPinMoon = 12; // Pin que activa los leds de luz nocturna // Conexion nº 2 Verde
 // const int Pin = 13;   // Pin libre
 // const int pin = 14;   // Pin libre
 // const int pin = 15;   // Pin libre
@@ -268,18 +268,16 @@ byte predefinido = 0;
 int led_estado = 0;       // Variable que indicara el estado de la iluminacion ON / OFF / Automatico
 int led_estado_temp;  // Variable temporal del estado de la luz
 
-int potenciaIluminacion; // Porcentaje de potencia de iluminacion ACTUAL de los leds
 
-
-byte pwm_pre_definido = 255;// potencia de leds
-byte pwm_percent = 100;           //  Tanto por ciento fijado desde la pantalla de config fotoperiodo
-byte led_on_hora = 12;     // Horario para encender leds.
+//byte pwm_pre_definido = 255;// potencia de leds
+//byte pwm_percent = 100;           //  Tanto por ciento fijado desde la pantalla de config fotoperiodo
+byte led_on_hora = 13;     // Horario para encender leds.
 byte led_on_minuto = 00;
 byte led_off_hora = 21;    // Horario para apagar leds.
 byte led_off_minuto = 0;   
 
-byte amanecer_anochecer = 40;   //Tiempo en amanecer o anochecer
-byte pwm_percent_t;
+byte amanecer_anochecer = 30;   //Tiempo en amanecer o anochecer
+//byte pwm_percent_t;
 byte led_on_minuto_t;      // Horarios temporales
 byte led_on_hora_t;
 byte led_off_minuto_t;

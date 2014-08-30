@@ -217,7 +217,48 @@ void temperaturatapa()
   
 }
 
-//--------------------------------------- Potência dos leds------------------------------ PANTALLA =6
+//--------------------------------------- Menu EEPROM------------------------------ PANTALLA =6
+
+void menu_eeprom()
+
+{
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[36])));
+    printHeader(buffer); //tabela_textos[24] "MENU EEPROM"
+    
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[11])));
+    printButton(buffer, iniC[0], iniC[1], iniC[2], iniC[3]);  // "INICIO"
+
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[66])));
+    printButton(buffer, menU[0], menU[1], menU[2], menU[3]); // "MENU"
+    
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[191])));
+    printButton(buffer, tanD[0], tanD[1], tanD[2], tanD[3]); // "BORRAR"
+
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[192])));
+    printButton(buffer, tesT[0], tesT[1], tesT[2], tesT[3]); // "GRABAR" 
+  
+} 
+
+//-------------------------Borrar EEPROM------------------------
+
+void borrar_eeprom_screen()
+{
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[36])));
+    printHeader(buffer); //tabela_textos[24] "MENU EEPROM"
+    
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[11])));
+    printButton(buffer, iniC[0], iniC[1], iniC[2], iniC[3]);  // "INICIO"
+
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[66])));
+    printButton(buffer, menU[0], menU[1], menU[2], menU[3]); // "MENU"
+    
+    setFont(LARGE, 255, 255, 0, 0, 0, 0); 
+    myGLCD.setColor(255, 0, 0);   
+    myGLCD.print("Confirme que borrara toda la eeprom", 50, 100);
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[191])));
+    printButton_vermelho(buffer, domI[0]-20, domI[1], domI[2]+20, domI[3]); // BORRAR en rojo    
+   
+}
 
 //----------------------Parametros---------------------------------------------PANTALLA =14
 
@@ -570,7 +611,7 @@ void selecionar_dosadora()
 }
 
 //--------------------------- Prueba manual de leds ----------------------------------------------------- PANTALLA =22
-void teste_individual_leds()
+/*void teste_individual_leds()
 {
   wled_out_temp = wled_out;
 
@@ -650,12 +691,12 @@ void teste_individual_leds()
   desenhar_barras(cor_canal1[0], cor_canal1[1],cor_canal1[2], 49, 44, 93, 172);                                                            
 }
 
-
+*/
 
 
 //---------------------------------------- Opções de teste dos leds ---------------------- PANTALLA =25
 
-void escolher_teste()
+/*void escolher_teste()
 {
   strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[49])));
   printHeader(buffer); //tabela_textos[49] = "ESCOLHA UM TIPO DE TESTE"; 
@@ -702,7 +743,7 @@ void escolher_canal()
   strcpy_P(buffer, (char*)pgm_read_word_near(&(nome_canal[6])));
   printButton(buffer, tempG[0], tempG[1], tempG[2],tempG[3]); // "BRANCO"
 }  
-
+*/
 // ---------Configurar dosificacion personalizada----------tela =29
 
 // ----------tela =31
@@ -1520,8 +1561,8 @@ void config_leds(boolean refreshAll=false)
   strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[202])));
   printHeader(buffer); // tabela_textos[2] = "CONFIGURAR LEDS"
 
-  strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[4])));
-  printButton(buffer, tanD[0], tanD[1], tanD[2], tanD[3]); // 1º boton, 1ª columna (probar led) 
+//  strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[4])));
+//  printButton(buffer, tanD[0], tanD[1], tanD[2], tanD[3]); // 1º boton, 1ª columna (probar led) 
 
   strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[7])));
   printButton(buffer, tesT[0], tesT[1], tesT[2], tesT[3]); // 2º boton, 1ª columna( camb fotoperiodo led) 
@@ -1588,9 +1629,6 @@ void fotoperiodo(boolean refreshAll = false)
 
     strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[253])));
     myGLCD.print(buffer, 15, 155); // "DURACION AMANECER Y ANOCHECER."
-    
-    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[249])));
-    myGLCD.print(buffer, 185, 155); // "POTENCIA DE LEDS."
 
     printButton("+", 30, 45, 55, 70, true);    // Boton mas hora
     printButton("+", 100, 45, 125, 70, true);    // Boton mas minuto
@@ -1605,8 +1643,8 @@ void fotoperiodo(boolean refreshAll = false)
 
     printButton("-", 20, 175, 45, 200, true);    // Botão para cima
     printButton("+", 110, 175, 135, 200, true);    // Botão para cima
-    printButton("-", 185, 175, 210, 200, true);    // Botão para cima
-    printButton("+", 275, 175, 300, 200, true);    // Botão para cima    
+//    printButton("-", 185, 175, 210, 200, true);    // Botão para cima
+//    printButton("+", 275, 175, 300, 200, true);    // Botão para cima    
   }
 
     setFont(LARGE, 255, 255, 255, 0, 0, 0);          
@@ -1663,23 +1701,7 @@ void fotoperiodo(boolean refreshAll = false)
     {
       myGLCD.printNumI(amanecer_anochecer_t, 60, 179);
     }
-        
-        myGLCD.print("   ", 220, 179);
-        if(pwm_percent_t >= 100)
-    {
-      myGLCD.printNumI(pwm_percent_t, 221, 179);
-    }
-    else if((pwm_percent_t >= 10) && (pwm_percent_t < 100))
-    {
-      myGLCD.printNumI(pwm_percent_t, 233, 179);
-    }
-    else
-    {
-      myGLCD.printNumI(pwm_percent_t, 235, 179);
-      
-    myGLCD.setColor(0, 0, 0);
-    myGLCD.fillRoundRect(1, 201, 300, 239);
-    } 
+ 
 }
 
 

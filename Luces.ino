@@ -23,18 +23,17 @@ void LED_levels_output()
          
          if((NumMins(t.hour,t.min) >= (NumMins(led_on_hora,led_on_minuto) - amanecer_anochecer)) && (NumMins(t.hour,t.min) <= NumMins(led_on_hora,led_on_minuto)))
          { 
-         wled_out = map(NumMins(t.hour,t.min),(NumMins(led_on_hora,led_on_minuto) - amanecer_anochecer), NumMins(led_on_hora,led_on_minuto), 0, pwm_pre_definido);
+         wled_out = map(NumMins(t.hour,t.min),(NumMins(led_on_hora,led_on_minuto) - amanecer_anochecer), NumMins(led_on_hora,led_on_minuto), 0, 255);
          }
          else if((NumMins(t.hour,t.min) >= NumMins(led_off_hora,led_off_minuto)) && (NumMins(t.hour,t.min) <= (NumMins(led_off_hora,led_off_minuto) + amanecer_anochecer)))
          {
-         wled_out = map(NumMins(t.hour,t.min), NumMins(led_off_hora,led_off_minuto), (NumMins(led_off_hora,led_off_minuto) + amanecer_anochecer), pwm_pre_definido, 0);
+         wled_out = map(NumMins(t.hour,t.min), NumMins(led_off_hora,led_off_minuto), (NumMins(led_off_hora,led_off_minuto) + amanecer_anochecer), 255, 0);
          }
          else
          {
-         wled_out = pwm_pre_definido;
+         wled_out = 255;
          } 
          
-         SetRele(ReleLuz, HIGH);
 
          }
 
@@ -48,32 +47,34 @@ void LED_levels_output()
           {   
             if((NumMins(t.hour,t.min) >= (NumMins(led_on_hora,led_on_minuto) - amanecer_anochecer)) && (NumMins(t.hour,t.min) <= NumMins(led_on_hora,led_on_minuto)))
             { 
-              wled_out = map(NumMins(t.hour,t.min),(NumMins(led_on_hora,led_on_minuto) - amanecer_anochecer), NumMins(led_on_hora,led_on_minuto), 0, pwm_pre_definido);
+              wled_out = map(NumMins(t.hour,t.min),(NumMins(led_on_hora,led_on_minuto) - amanecer_anochecer), NumMins(led_on_hora,led_on_minuto), 0, 255);
              }
             else 
             {
-              wled_out = pwm_pre_definido;
+              wled_out = 255;
              }
           }
           else if(NumMins(t.hour,t.min) <= (NumMins(led_off_hora,led_off_minuto) + amanecer_anochecer))
           { 
             if((NumMins(t.hour,t.min) <= (NumMins(led_off_hora,led_off_minuto) + amanecer_anochecer)) && (NumMins(t.hour,t.min) >= NumMins(led_off_hora,led_off_minuto)))
             {
-              wled_out = map(NumMins(t.hour,t.min),(NumMins(led_off_hora,led_off_minuto) + amanecer_anochecer), NumMins(led_off_hora,led_off_minuto), 0, pwm_pre_definido);
+              wled_out = map(NumMins(t.hour,t.min),(NumMins(led_off_hora,led_off_minuto) + amanecer_anochecer), NumMins(led_off_hora,led_off_minuto), 0, 255);
              }
             else 
             {
-              wled_out = pwm_pre_definido;
+              wled_out = 255;
              }
           }
           else
           {
             wled_out = 0;
-            SetRele(ReleLuz, LOW);           
           }
         
         
       }
+
+
+
 
 
   float lunarCycle = moonPhase(t.year,t.mon, t.date); //get a value for the lunar cycle
@@ -95,26 +96,35 @@ void LED_levels_output()
     moon_out = suavizar * moon_out;    
   }
 
-
-
+ 
 
 //********************************** Variacion de iluminacion en funcion del modo y temperatura
      if (led_estado == 0)            // Si seleccionamos en modo AUTO el valor sera 0 y se ejecuta la funcion normal
    {
-  analogWrite(PWMLuz,    w_out * potenciaIluminacion / 100 ); // Añadido control de potencia de iluminacion
-  analogWrite(ledPinMoon,  moon_out );                             // No afecta variacion iluminacion a led de noche
-
+  analogWrite(PWMLuz,    w_out);         // Añadido control de potencia de iluminacion
+  analogWrite(ledPinMoon,  moon_out );   // No afecta variacion iluminacion a led de noche
+  if (wled_out == 0)                     //Si el valor de salida es igual a cero y esta seleccionado modo OFF
+  {
+    SetRele(ReleLuz,LOW);                //Apagamos el rele de la luz
+  }
+ else 
+ {
+   SetRele(ReleLuz,HIGH);                 //Sino lo dejamos encendido
+ }
+  
     }
     
     else if (led_estado == 1) // El estado del modo es ON entonces directamente enciende los leds al 100%    
     {
   analogWrite(PWMLuz,   255 ); // Se ilumina al 100%
+  SetRele(ReleLuz,HIGH);       //Rele luz ON
   analogWrite(ledPinMoon,    moon_out ); // No le afecta a luz noche      
     }
     
     else if (led_estado == 2)
     {
   analogWrite(PWMLuz,   0 ); // Se apaga
+  SetRele(ReleLuz,LOW);      //Rele Luz OFF
   analogWrite(ledPinMoon,    moon_out ); // No le afecta a luz noche
     }
 }

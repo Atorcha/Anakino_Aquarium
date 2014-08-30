@@ -15,11 +15,12 @@ void setup()
   pinMode (temporizador2, OUTPUT);
   pinMode (temporizador3, OUTPUT);
   pinMode (temporizador4, OUTPUT);
-  pinMode(comederopin, OUTPUT);  
- 
+  pinMode (temporizador5, OUTPUT);
+  pinMode (comederopin, OUTPUT);  
+  
   // Con esto apagamos todos los reles.  
     byte n;
-    for(n=43; n < 51; n = n + 1)
+    for(n=42; n < 51; n = n + 1)
        {
          digitalWrite( n, HIGH);
        } 
