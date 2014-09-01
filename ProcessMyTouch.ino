@@ -1701,7 +1701,7 @@ void processMyTouch()
         
         if ((x >= 30) && (x <= 55) && (y >= 45) && (y <= 70))           // Hora encendido mas 
         {
-          //waitForIt(30, 45, 55, 70);
+          waitForIt(30, 45, 55, 70);
           led_on_hora_t += 1;
           if(led_on_hora_t > 23)
           {
@@ -1711,7 +1711,7 @@ void processMyTouch()
         } 
         else if ((x >= 30) && (x <= 55) && (y >= 105) && (y <= 130))           // Hora encendido menos
         {
-          //waitForIt(30, 105, 55, 130);
+          waitForIt(30, 105, 55, 130);
           led_on_hora_t -= 1;
           if(led_on_hora_t > 200) // 0 - 1 = 255 pois, byte varia de  0 a 255. 
           {
@@ -1722,7 +1722,7 @@ void processMyTouch()
 
         else if ((x >= 100) && (x <= 125) && (y >= 45) && (y <= 70))           // Minuto ligar mais 
         {
-          //waitForIt(100, 45, 125, 70);
+          waitForIt(100, 45, 125, 70);
           led_on_minuto_t += 5;
           if(led_on_minuto_t > 59)
           {
@@ -1732,7 +1732,7 @@ void processMyTouch()
         } 
         else if ((x >= 100) && (x <= 125) && (y >= 105) && (y <= 130))           // Minuto ligar menos
         {
-          //waitForIt(100, 105, 125, 130);
+          waitForIt(100, 105, 125, 130);
           led_on_minuto_t -= 5;
           if(led_on_minuto_t > 200) // 0 - 1 = 255 pois, byte varia de  0 a 255. 
           {
@@ -1742,7 +1742,7 @@ void processMyTouch()
         }
         else if ((x >= 195) && (x <= 220) && (y >= 45) && (y <= 70))           // Hora mas 
         {
-          //waitForIt(195, 45, 220, 70);
+          waitForIt(195, 45, 220, 70);
           led_off_hora_t += 1;
           if(led_off_hora_t > 23)
           {
@@ -1752,7 +1752,7 @@ void processMyTouch()
         } 
         else if ((x >= 195) && (x <= 220) && (y >= 105) && (y <= 130))           // Hora menos
         {
-          //waitForIt(195, 105, 220, 130);
+          waitForIt(195, 105, 220, 130);
           led_off_hora_t -= 1;
           if(led_off_hora_t > 200) // 0 - 1 = 255 pois, byte varia de  0 a 255. 
           {
@@ -1763,7 +1763,7 @@ void processMyTouch()
 
         else if ((x >= 265) && (x <= 290) && (y >= 45) && (y <= 70))           // Minuto mas 
         {
-          //waitForIt(265, 45, 290, 70);
+          waitForIt(265, 45, 290, 70);
           led_off_minuto_t += 5;
           if(led_off_minuto_t > 59)
           {
@@ -1773,7 +1773,7 @@ void processMyTouch()
         } 
         else if ((x >= 265) && (x <= 290) && (y >= 105) && (y <= 130))           // Minuto menos
         {
-          //waitForIt(265, 105, 290, 130);
+          waitForIt(265, 105, 290, 130);
           led_off_minuto_t -= 5;
           if(led_off_minuto_t > 200) // 0 - 1 = 255 pois, byte varia de  0 a 255. 
           {
@@ -1783,7 +1783,7 @@ void processMyTouch()
         }
         else if ((x >= 110) && (x <= 135) && (y >= 175) && (y <= 200))           // Amanecer/anochecer mas 
         {
-          //waitForIt(265, 45, 290, 70);
+          waitForIt(265, 45, 290, 70);
           amanecer_anochecer_t += 5;
           if(amanecer_anochecer_t > 240)
           {
@@ -1793,7 +1793,7 @@ void processMyTouch()
         } 
         else if ((x >= 20) && (x <= 45) && (y >= 175) && (y <= 200))           // Amanecer/anochecer menos
         {
-          //waitForIt(265, 105, 290, 130);
+          waitForIt(265, 105, 290, 130);
           amanecer_anochecer_t -= 5;
           if(amanecer_anochecer_t < 5)
           {

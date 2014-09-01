@@ -75,7 +75,7 @@
 //****************************************************************************************************
 //***************** Sensores de temperatura **********************************************************
 //****************************************************************************************************
-OneWire OneWireBus(42);                   //Sensores de temperatura conectados al pin 43.
+OneWire OneWireBus(42);                   //Sensores de temperatura conectados al pin 42.
 DallasTemperature sensors(&OneWireBus);  
 DeviceAddress sensor_agua= {0x28, 0x10, 0x32, 0x2B, 0x04, 0x00, 0x00, 0x38 }; // Es necesario cambiar este valor acorde con nuestro sensor.
 DeviceAddress sensor_dissipador = {0x28, 0x99, 0x47, 0x2B, 0x04, 0x00, 0x00, 0xFB }; // Es necesario cambiar este valor acorde con nuestro sensor.
@@ -212,7 +212,7 @@ byte status_parametros = 0x0; // En esta variable podremos añadir los diferente
 float tempC = 0;              // Temperatura de agua
 float setTempC = 25;          // Temperatura deseada
 float offTempC = 0.5;         // Variacion permitida de temperatura
-float alarmTempC = 3;         // Variacion para acionar la alarme de temperatura de agua
+float alarmTempC = 3;         // Variacion para acionar la alarma de temperatura de agua
 int contador_temp = 0;
 float temperatura_agua_temp;       // Temperatura temporal del agua
 float temperatura_dissipador_temp; // Temperatura temporal del disipador
@@ -265,7 +265,7 @@ boolean mensagem = true;
 float suavizar = 0.0; // LEDS inicia suavemente y llega al valor especificado en 50 segundos.
 byte predefinido = 0;
 
-int led_estado = 0;       // Variable que indicara el estado de la iluminacion ON / OFF / Automatico
+int led_estado = 0;       // Variable que indicara el estado de la iluminacion MAN ON / MAN OFF / Automatico
 int led_estado_temp;  // Variable temporal del estado de la luz
 
 
@@ -283,7 +283,6 @@ byte led_on_hora_t;
 byte led_off_minuto_t;
 byte led_off_hora_t;
 byte amanecer_anochecer_t;
-boolean encender_luz;
 
 //*************************************************************************************************
 //***************DISEÑO BARRAS LUZ PANTALLA ***********************************************************
@@ -312,13 +311,16 @@ boolean nivel_status = 0;             // indica nivel bajo en uno de los acuario
 boolean ato = 0;                      // indica reposição activada / desactivada
 
 //*****************************************************************************************
-//************************ Variáveis de envio da informações ao xively.com ******************
+//************************ Variable del envio de datos a xively ******************
 //*****************************************************************************************
 long previous_Millis = 0; // Variável que controla o tempo para envio dos dados
-byte Status = 0x0;
-// bit 1 int reposicao_status;
-// bit 2 niveis_status;
-// bit 3 tpa_status;
+
+//*****************************************************************************************
+// *********************** NETIO
+//*****************************************************************************************
+EthernetServer servidorArduino(54322);
+#define BUFFER 10
+
 
 //*****************************************************************************************
 //************************* Funciones de ethernet shield **********************************
@@ -402,6 +404,8 @@ byte temporizador_status = 0x0; // 1 = true e 0 = false
 //bit 3 = temporizador 3
 //bit 4 = temporizador 4
 //bit 5 = temporizador 5
+//bit  = temporizador luz
+
 int temporizador_1_ativado = 0;
 int temporizador_2_ativado = 0;
 int temporizador_3_ativado = 0;

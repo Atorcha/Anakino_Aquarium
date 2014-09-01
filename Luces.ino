@@ -105,10 +105,12 @@ void LED_levels_output()
   analogWrite(ledPinMoon,  moon_out );   // No afecta variacion iluminacion a led de noche
   if (wled_out == 0)                     //Si el valor de salida es igual a cero y esta seleccionado modo OFF
   {
+    bitWrite(temporizador_status,0,0);   //Estado del rele OFF
     SetRele(ReleLuz,LOW);                //Apagamos el rele de la luz
   }
  else 
  {
+   bitWrite(temporizador_status,0,1);     // Estado del rele ON
    SetRele(ReleLuz,HIGH);                 //Sino lo dejamos encendido
  }
   
@@ -117,6 +119,7 @@ void LED_levels_output()
     else if (led_estado == 1) // El estado del modo es ON entonces directamente enciende los leds al 100%    
     {
   analogWrite(PWMLuz,   255 ); // Se ilumina al 100%
+  bitWrite(temporizador_status,0,1);     // Estado del rele ON
   SetRele(ReleLuz,HIGH);       //Rele luz ON
   analogWrite(ledPinMoon,    moon_out ); // No le afecta a luz noche      
     }
@@ -124,6 +127,7 @@ void LED_levels_output()
     else if (led_estado == 2)
     {
   analogWrite(PWMLuz,   0 ); // Se apaga
+  bitWrite(temporizador_status,0,0);   //Estado del rele OFF
   SetRele(ReleLuz,LOW);      //Rele Luz OFF
   analogWrite(ledPinMoon,    moon_out ); // No le afecta a luz noche
     }

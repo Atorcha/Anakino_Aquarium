@@ -4,7 +4,7 @@ void xively()
   {
     previous_Millis = millis();
     // if there's a successful connection:
-      Serial.println("connecting...COSM");
+      Serial.println("connecting...XIVELY");
       datastreams[0].setFloat(tempC);      //Serial.println(tempC);
       datastreams[1].setFloat(tempH);      //Serial.println(tempH);
       datastreams[2].setFloat(tempHB);     //Serial.println(tempHB);

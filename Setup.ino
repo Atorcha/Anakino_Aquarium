@@ -3,6 +3,9 @@ void setup()
 {
   Serial.begin(38400); //Inicia a comunicação com a  porta serial 0 para obter mensagens de depuração.   
 //  Serial2.begin(38400); //Inicia a comunicação com a  porta serial 2 onde estão conectados os "stamps".
+
+  Ethernet.begin(mac, ip);
+  servidorArduino.begin();
   pinMode(PWMLuz, OUTPUT);
   pinMode(ledPinMoon, OUTPUT); 
   pinMode(calentadorPin, OUTPUT);
@@ -61,3 +64,4 @@ void SetRele( int Pin, boolean Estado )  //Funcion que hace que el rele chino fu
  digitalWrite( Pin, !Estado );
 
 }
+

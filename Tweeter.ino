@@ -11,11 +11,6 @@ void tweet(char *msg)
                              } 
                              else
                              
-          { Serial.println("connection tweeter failed.");}
-          
-
-             
-          
+          { Serial.println("connection tweeter failed.");
+        }        
   }
-  
-  

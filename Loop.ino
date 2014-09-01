@@ -4,7 +4,7 @@ void loop()
 
   t = rtc.getTime(); // Atualiza as variáveis que usam o RTC.   
 
-  LED_levels_output(); // Atualiza laa potencia  de salida de los  leds
+  LED_levels_output(); // Atualiza la potencia  de salida de los  leds
 
   if (myTouch.dataAvailable())  
   { 
@@ -15,12 +15,14 @@ void loop()
   if((Ethernet_Shield == true)) //&& (bitRead(tpa_status,1) == false)) // Condiciones para el envio a xively.com.
   {
     xively (); // Envia datos a xively
+    netio();   // Comunica los datos con netio
   } 
   
 
   if (dispScreen != 22)
   {
     teste_em_andamento = false;
+
   }
 
   if (millis() - previousMillis > 5000)    // Verifica laas funciones cada 5 segundos.
@@ -32,6 +34,7 @@ void loop()
     min_cnt = NumMins(t.hour,t.min); // Atualiza intervalo para la potencia de leds
     check_temporizadores(); // Verifica temporizadores
     feedingTimeOutput();   // Comprueba si hay que dar de comer a los peces
+
 
 
     if (dispScreen == 0)
