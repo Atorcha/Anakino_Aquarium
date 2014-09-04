@@ -23,7 +23,7 @@ void setup()
   
   // Con esto apagamos todos los reles.  
     byte n;
-    for(n=42; n < 51; n = n + 1)
+    for(n=43; n < 51; n = n + 1)
        {
          digitalWrite( n, HIGH);
        } 
@@ -38,12 +38,6 @@ void setup()
   sensors.begin();     //Inicia as leituras das sondas de temperatura.
   sensors.setResolution(sensor_agua, 12); // Define a resolução em 10 bits.
   sensors.setResolution(sensor_dissipador, 12); // Define a resolução em 10 bits.
-
-  if(Ethernet_Shield == true)
-  {
-   Ethernet.begin(mac);
-
-  }
 
   rtc.halt(false); // Inicia o funcionamento do RTC.
   

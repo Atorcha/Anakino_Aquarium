@@ -8,7 +8,7 @@ void xively()
       datastreams[0].setFloat(tempC);      //Serial.println(tempC);
       datastreams[1].setFloat(tempH);      //Serial.println(tempH);
       datastreams[2].setFloat(tempHB);     //Serial.println(tempHB);
-      datastreams[3].setInt(bitRead(status_parametros,1));  //Serial.print(digitalRead(calentadorPin)); Serial.println("  Calentador");// Calentador
+      datastreams[3].setInt(digitalRead(calentadorPin));  //Serial.print(digitalRead(calentadorPin)); Serial.println("  Calentador");// Calentador
       datastreams[4].setInt(LedToPercent(fanSpeed));      //Serial.print(fanSpeed);Serial.println("  Ventilador");// Ventilador
       datastreams[5].setInt(digitalRead(temporizador1));  //Serial.println(digitalRead(temporizador1));// Lampara UV 1, 0 = desligado e 1 = ligado
       datastreams[6].setInt(digitalRead(temporizador2));  //Serial.println(digitalRead(temporizador2));// Aireador 2, 0 = desligado e 1 = ligado
