@@ -276,7 +276,7 @@ byte led_on_minuto = 00;
 byte led_off_hora = 21;    // Horario para apagar leds.
 byte led_off_minuto = 0;   
 
-byte amanecer_anochecer = 30;   //Tiempo en amanecer o anochecer
+byte amanecer_anochecer = 0;   //Tiempo en amanecer o anochecer
 //byte pwm_percent_t;
 byte led_on_minuto_t;      // Horarios temporales
 byte led_on_hora_t;
