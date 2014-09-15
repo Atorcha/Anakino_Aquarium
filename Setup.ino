@@ -47,7 +47,10 @@ void setup()
   ler_timers_EEPROM();
   ler_led_estado_EEPROM();
   ler_comederos_EEPROM();
-
+  
+  card.init(SPI_QUARTER_SPEED,chipselect); // Inicia a comunicação com o cartão SD.
+  volume.init(&card);
+  root.openRoot(&volume);
   
   mainScreen(true); // Exibe a tela inicial no LCD.
 }

@@ -127,6 +127,15 @@ const int comederopin = 50;     // Rele 7 =>            ****** Pin de comedero
 // ******************************************************************************************
 
 // Pines 50, 51 e 52 reservados para comunicacion SPI
+
+const int dosadora1 = A9;     // Bomba dosadora 1
+const int dosadora2 = A10;     // Bomba dosadora 2
+const int dosadora3 = A11;     // Bomba dosadora 3
+const int dosadora4 = A12;     // Bomba dosadora 4
+const int dosadora5 = A13;     // Bomba dosadora 5
+const int dosadora6 = A14;     // Bomba dosadora 6
+
+
 // Pin 53 reservado para "select slave de ethernet shield.
 // Pin A15 reservado para SS do RFM12B
 
@@ -276,7 +285,7 @@ byte led_on_minuto = 00;
 byte led_off_hora = 21;    // Horario para apagar leds.
 byte led_off_minuto = 0;   
 
-byte amanecer_anochecer = 0;   //Tiempo en amanecer o anochecer
+byte amanecer_anochecer = 30;   //Tiempo en amanecer o anochecer
 //byte pwm_percent_t;
 byte led_on_minuto_t;      // Horarios temporales
 byte led_on_hora_t;
@@ -304,6 +313,21 @@ float lunarCycle; //get a value for the lunar cycle
 //*********************** Variables de control de níveles **********************************
 //*****************************************************************************************
 boolean nivel_status = 0;             // indica nivel bajo en uno de los acuarios
+
+//****************************************************************************************
+//*********************** Variables de funcion de control de la SD      *****
+//****************************************************************************************
+unsigned long logtempminutoantes = 0;  // Variável que controla o tempo para gravação dos parâmetros no cartão SD 
+const int chipselect = 4;            // Para utilizar o Sd card do LCD altere para 53
+Sd2Card card;
+SdFile file;
+SdFile root;
+SdVolume volume;
+char time1;
+char time2;
+char time3;
+char time4;
+char time5;
 
 //*****************************************************************************************
 //************************ Variável de controle da reposição de água doce *****************
@@ -462,4 +486,215 @@ int temporizador_3_ativado_temp2;
 int temporizador_4_ativado_temp2;
 int temporizador_5_ativado_temp2;
 
+
+//*****************************************************************************************
+//************************** Variable  dosificadoras ******************************************
+//*****************************************************************************************
+boolean dosadoras = false; //Cambiar a false en caso de no tener dosificadoras
+char time9;
+char time10;
+char time11;
+char time15;
+char time16;
+char time17;
+int contador = 0;
+int minuto01 = 0;
+int minuto11 = 0;
+long tempo_dosagem = 0;
+float dose_dosadora_1_manual = 0.0;
+float dose_dosadora_2_manual = 0.0;
+float dose_dosadora_3_manual = 0.0;
+float dose_dosadora_4_manual = 0.0;
+float dose_dosadora_5_manual = 0.0;
+float dose_dosadora_6_manual = 0.0;
+boolean modo_manual = false;
+boolean modo_personalizado = false;
+boolean modo_calibrar = false;
+byte dosadora_selecionada = 0x0; // 0 = false, 1 = true
+byte ativar_desativar = 0x0;     // 0 = false, 1 = true
+byte modo_personalizado_on = 0x0; // 0 = false, 1 = true
+byte segunda_dosagem_personalizada = 0x0; // 0 = false, 1 = true
+// bit 1 = dosadora 1
+// bit 2 = dosadora 2
+// bit 3 = dosadora 3
+// bit 4 = dosadora 4
+// bit 5 = dosadora 5
+// bit 6 = dosadora 6
+float fator_calib_dosadora_1 = 0.0;
+float fator_calib_dosadora_2 = 0.0;
+float fator_calib_dosadora_3 = 0.0;
+float dose_dosadora_1_personalizada = 0.0;
+float dose_dosadora_2_personalizada = 0.0;
+float dose_dosadora_3_personalizada = 0.0;
+int hora_inicial_dosagem_personalizada_1 = 0;
+int minuto_inicial_dosagem_personalizada_1 = 0;
+int hora_final_dosagem_personalizada_1 = 0;
+int minuto_final_dosagem_personalizada_1 = 0;
+int terca_dosagem_personalizada_1 = 0;
+int quarta_dosagem_personalizada_1 = 0;
+int quinta_dosagem_personalizada_1 = 0;
+int sexta_dosagem_personalizada_1 = 0;
+int sabado_dosagem_personalizada_1 = 0;
+int domingo_dosagem_personalizada_1 = 0;
+int hora_inicial_dosagem_personalizada_2 = 0;
+int minuto_inicial_dosagem_personalizada_2 = 0;
+int hora_final_dosagem_personalizada_2 = 0;
+int minuto_final_dosagem_personalizada_2 = 0;
+int terca_dosagem_personalizada_2 = 0;
+int quarta_dosagem_personalizada_2 = 0;
+int quinta_dosagem_personalizada_2 = 0;
+int sexta_dosagem_personalizada_2 = 0;
+int sabado_dosagem_personalizada_2 = 0;
+int domingo_dosagem_personalizada_2 = 0;
+int hora_inicial_dosagem_personalizada_3 = 0;
+int minuto_inicial_dosagem_personalizada_3 = 0;
+int hora_final_dosagem_personalizada_3 = 0;
+int minuto_final_dosagem_personalizada_3 = 0;
+int terca_dosagem_personalizada_3 = 0;
+int quarta_dosagem_personalizada_3 = 0;
+int quinta_dosagem_personalizada_3 = 0;
+int sexta_dosagem_personalizada_3 = 0;
+int sabado_dosagem_personalizada_3 = 0;
+int domingo_dosagem_personalizada_3 = 0;
+int quantidade_dose_dosadora_1_personalizada = 0;
+int quantidade_dose_dosadora_2_personalizada = 0;
+int quantidade_dose_dosadora_3_personalizada = 0;
+float fator_calib_dosadora_4 = 0.0;
+float fator_calib_dosadora_5 = 0.0;
+float fator_calib_dosadora_6 = 0.0;
+float dose_dosadora_4_personalizada = 0.0;
+float dose_dosadora_5_personalizada = 0.0;
+float dose_dosadora_6_personalizada = 0.0;
+int hora_inicial_dosagem_personalizada_4 = 0;
+int minuto_inicial_dosagem_personalizada_4 = 0;
+int hora_final_dosagem_personalizada_4 = 0;
+int minuto_final_dosagem_personalizada_4 = 0;
+int terca_dosagem_personalizada_4 = 0;
+int quarta_dosagem_personalizada_4 = 0;
+int quinta_dosagem_personalizada_4 = 0;
+int sexta_dosagem_personalizada_4 = 0;
+int sabado_dosagem_personalizada_4 = 0;
+int domingo_dosagem_personalizada_4 = 0;
+int hora_inicial_dosagem_personalizada_5 = 0;
+int minuto_inicial_dosagem_personalizada_5 = 0;
+int hora_final_dosagem_personalizada_5 = 0;
+int minuto_final_dosagem_personalizada_5 = 0;
+int terca_dosagem_personalizada_5 = 0;
+int quarta_dosagem_personalizada_5 = 0;
+int quinta_dosagem_personalizada_5 = 0;
+int sexta_dosagem_personalizada_5 = 0;
+int sabado_dosagem_personalizada_5 = 0;
+int domingo_dosagem_personalizada_5 = 0;
+int hora_inicial_dosagem_personalizada_6 = 0;
+int minuto_inicial_dosagem_personalizada_6 = 0;
+int hora_final_dosagem_personalizada_6 = 0;
+int minuto_final_dosagem_personalizada_6 = 0;
+int terca_dosagem_personalizada_6 = 0;
+int quarta_dosagem_personalizada_6 = 0;
+int quinta_dosagem_personalizada_6 = 0;
+int sexta_dosagem_personalizada_6 = 0;
+int sabado_dosagem_personalizada_6 = 0;
+int domingo_dosagem_personalizada_6 = 0;
+int quantidade_dose_dosadora_4_personalizada = 0;
+int quantidade_dose_dosadora_5_personalizada = 0;
+int quantidade_dose_dosadora_6_personalizada = 0;
+//*****************************************************************************************
+//************************** Variables temporales de las dosadoras ************************
+//*****************************************************************************************
+byte    modo_personalizado_on_1_temp2;
+byte    modo_personalizado_on_2_temp2;
+byte    modo_personalizado_on_3_temp2;
+byte    modo_personalizado_on_4_temp2;
+byte    modo_personalizado_on_5_temp2;
+byte    modo_personalizado_on_6_temp2;
+float fator_calib_dosadora_1_temp2;
+float fator_calib_dosadora_2_temp2;
+float fator_calib_dosadora_3_temp2;
+float dose_dosadora_1_personalizada_temp2;
+float dose_dosadora_2_personalizada_temp2;
+float dose_dosadora_3_personalizada_temp2;
+float dose_dosadora_1_manual_temp2;
+float dose_dosadora_2_manual_temp2;
+float dose_dosadora_3_manual_temp2;
+int temp2hora_inicial_dosagem_personalizada_1;
+int temp2minuto_inicial_dosagem_personalizada_1;
+int temp2hora_final_dosagem_personalizada_1;
+int temp2minuto_final_dosagem_personalizada_1;
+int temp2segunda_dosagem_personalizada_1;
+int temp2terca_dosagem_personalizada_1;
+int temp2quarta_dosagem_personalizada_1;
+int temp2quinta_dosagem_personalizada_1;
+int temp2sexta_dosagem_personalizada_1;
+int temp2sabado_dosagem_personalizada_1;
+int temp2domingo_dosagem_personalizada_1;
+int temp2hora_inicial_dosagem_personalizada_2;
+int temp2minuto_inicial_dosagem_personalizada_2;
+int temp2hora_final_dosagem_personalizada_2;
+int temp2minuto_final_dosagem_personalizada_2;
+int temp2segunda_dosagem_personalizada_2;
+int temp2terca_dosagem_personalizada_2;
+int temp2quarta_dosagem_personalizada_2;
+int temp2quinta_dosagem_personalizada_2;
+int temp2sexta_dosagem_personalizada_2;
+int temp2sabado_dosagem_personalizada_2;
+int temp2domingo_dosagem_personalizada_2;
+int temp2hora_inicial_dosagem_personalizada_3;
+int temp2minuto_inicial_dosagem_personalizada_3;
+int temp2hora_final_dosagem_personalizada_3;
+int temp2minuto_final_dosagem_personalizada_3;
+int temp2segunda_dosagem_personalizada_3;
+int temp2terca_dosagem_personalizada_3;
+int temp2quarta_dosagem_personalizada_3;
+int temp2quinta_dosagem_personalizada_3;
+int temp2sexta_dosagem_personalizada_3;
+int temp2sabado_dosagem_personalizada_3;
+int temp2domingo_dosagem_personalizada_3;
+int quantidade_dose_dosadora_1_personalizada_temp2;
+int quantidade_dose_dosadora_2_personalizada_temp2;
+int quantidade_dose_dosadora_3_personalizada_temp2;
+float fator_calib_dosadora_4_temp2;
+float fator_calib_dosadora_5_temp2;
+float fator_calib_dosadora_6_temp2;
+float dose_dosadora_4_personalizada_temp2;
+float dose_dosadora_5_personalizada_temp2;
+float dose_dosadora_6_personalizada_temp2;
+float dose_dosadora_4_manual_temp2;
+float dose_dosadora_5_manual_temp2;
+float dose_dosadora_6_manual_temp2;
+int temp2hora_inicial_dosagem_personalizada_4;
+int temp2minuto_inicial_dosagem_personalizada_4;
+int temp2hora_final_dosagem_personalizada_4;
+int temp2minuto_final_dosagem_personalizada_4;
+int temp2segunda_dosagem_personalizada_4;
+int temp2terca_dosagem_personalizada_4;
+int temp2quarta_dosagem_personalizada_4;
+int temp2quinta_dosagem_personalizada_4;
+int temp2sexta_dosagem_personalizada_4;
+int temp2sabado_dosagem_personalizada_4;
+int temp2domingo_dosagem_personalizada_4;
+int temp2hora_inicial_dosagem_personalizada_5;
+int temp2minuto_inicial_dosagem_personalizada_5;
+int temp2hora_final_dosagem_personalizada_5;
+int temp2minuto_final_dosagem_personalizada_5;
+int temp2segunda_dosagem_personalizada_5;
+int temp2terca_dosagem_personalizada_5;
+int temp2quarta_dosagem_personalizada_5;
+int temp2quinta_dosagem_personalizada_5;
+int temp2sexta_dosagem_personalizada_5;
+int temp2sabado_dosagem_personalizada_5;
+int temp2domingo_dosagem_personalizada_5;
+int temp2hora_inicial_dosagem_personalizada_6;
+int temp2minuto_inicial_dosagem_personalizada_6;
+int temp2hora_final_dosagem_personalizada_6;
+int temp2minuto_final_dosagem_personalizada_6;
+int temp2segunda_dosagem_personalizada_6;
+int temp2terca_dosagem_personalizada_6;
+int temp2quarta_dosagem_personalizada_6;
+int temp2quinta_dosagem_personalizada_6;
+int temp2sexta_dosagem_personalizada_6;
+int temp2sabado_dosagem_personalizada_6;
+int temp2domingo_dosagem_personalizada_6;
+int quantidade_dose_dosadora_4_personalizada_temp2;
+int quantidade_dose_dosadora_5_personalizada_temp2;
+int quantidade_dose_dosadora_6_personalizada_temp2;
 
