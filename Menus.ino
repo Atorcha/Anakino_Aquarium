@@ -4273,6 +4273,9 @@ void fotoperiodo(boolean refreshAll = false)
 
     strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[253])));
     myGLCD.print(buffer, 15, 155); // "DURACION AMANECER Y ANOCHECER."
+    
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[249])));
+    myGLCD.print(buffer, 185, 155); // "POTENCIA DE LEDS."    
 
     printButton("+", 30, 45, 55, 70, true);    // Boton mas hora
     printButton("+", 100, 45, 125, 70, true);    // Boton mas minuto
@@ -4287,8 +4290,8 @@ void fotoperiodo(boolean refreshAll = false)
 
     printButton("-", 20, 175, 45, 200, true);    // Botão para cima
     printButton("+", 110, 175, 135, 200, true);    // Botão para cima
-//    printButton("-", 185, 175, 210, 200, true);    // Botão para cima
-//    printButton("+", 275, 175, 300, 200, true);    // Botão para cima    
+    printButton("-", 185, 175, 210, 200, true);    // Botão para cima
+    printButton("+", 275, 175, 300, 200, true);    // Botão para cima    
   }
 
     setFont(LARGE, 255, 255, 255, 0, 0, 0);          
@@ -4345,6 +4348,24 @@ void fotoperiodo(boolean refreshAll = false)
     {
       myGLCD.printNumI(amanecer_anochecer_t, 60, 179);
     }
+    
+        
+        myGLCD.print("   ", 220, 179);
+        if(pwm_percent_t >= 100)
+    {
+      myGLCD.printNumI(pwm_percent_t, 221, 179);
+    }
+    else if((pwm_percent_t >= 10) && (pwm_percent_t < 100))
+    {
+      myGLCD.printNumI(pwm_percent_t, 233, 179);
+    }
+    else
+    {
+      myGLCD.printNumI(pwm_percent_t, 235, 179);
+      
+    myGLCD.setColor(0, 0, 0);
+    myGLCD.fillRoundRect(1, 201, 300, 239);
+    }     
  
 }
 

@@ -5071,7 +5071,23 @@ void processMyTouch()
             amanecer_anochecer_t = 240;
           }
           fotoperiodo();
-        }                   
+        }
+
+        else if((x >= 275) && (x <= 300) && (y >= 175) && (y <= 200)) // PWM +
+            {
+              pwm_percent_t += 10;
+              if(pwm_percent_t > 100){ pwm_percent_t = 0;}
+              if(pwm_percent_t < 0) {pwm_percent_t = 100;}
+               
+              fotoperiodo(); 
+            }
+            else if((x >= 185) && (x <= 210) && (y >= 175) && (y <= 200)) // PWM -
+            {
+              pwm_percent_t -= 10;
+              if(pwm_percent_t > 100){ pwm_percent_t = 0;}
+              if(pwm_percent_t < 0) {pwm_percent_t = 100;}
+              fotoperiodo();
+            }        
       break; 
 
     }
