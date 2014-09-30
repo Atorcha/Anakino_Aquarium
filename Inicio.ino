@@ -101,23 +101,26 @@ void mainScreen(boolean refreshAll=false)
     strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[214])));
     myGLCD.print(buffer, 212, 70); // tabela_textos[214] = "temperatura habitacion" 
     
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[94])));
+    myGLCD.print(buffer, 212, 84); // tabela_textos[214] = "PH acuario"     
+    
     strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[185])));
-    myGLCD.print(buffer, 212, 98); // tabela_textos[185] = "ILUMINACION:"   
+    myGLCD.print(buffer, 212, 112); // tabela_textos[185] = "ILUMINACION:"   
 
     strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[31])));
-    myGLCD.print(buffer, 212, 112); // tabela_textos[31] = "TIMER 1:"
+    myGLCD.print(buffer, 212, 126); // tabela_textos[31] = "LAMPARA UV"
 
     strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[77])));
-    myGLCD.print(buffer, 212, 126); // tabela_textos[77] = "TIMER 2:"
+    myGLCD.print(buffer, 212, 140); // tabela_textos[77] = "AIREADOR"
 
     strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[78])));
-    myGLCD.print(buffer, 212, 140); // tabela_textos[78] = "TIMER 3:"
+    myGLCD.print(buffer, 212, 154); // tabela_textos[78] = "CO2:"
 
     strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[79])));
-    myGLCD.print(buffer, 212, 154); // tabela_textos[79] = "TIMER 4:"
+    myGLCD.print(buffer, 212, 168); // tabela_textos[79] = "TIMER 4:"
 
     strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[80])));
-    myGLCD.print(buffer, 212, 168); // tabela_textos[80] = "TIMER 5:"
+    myGLCD.print(buffer, 212, 182); // tabela_textos[80] = "TIMER 5:"
 
     myGLCD.setColor(0, 255, 0);
 
@@ -129,8 +132,8 @@ void mainScreen(boolean refreshAll=false)
     myGLCD.setColor(161, 127, 73);                  
     myGLCD.drawRect(7, 5, 199, 145);                // Dibujar rectangulo barras
     myGLCD.drawRect(7, 150, 199, 208);              // Dibujar rectangulo alarmas
-    myGLCD.drawRect(206, 5, 392, 89);              // Dibujar rectangulo temperaturas
-    myGLCD.drawRect(206,92, 392, 208);              // Dibujar rectangulo temprizadores
+    myGLCD.drawRect(206, 5, 392, 103);              // Dibujar rectangulo temperaturas
+    myGLCD.drawRect(206,106, 392, 208);              // Dibujar rectangulo temprizadores
    
 
   } //////////////////////////                                           //////////////      Fin de refreshAll
@@ -160,9 +163,9 @@ void mainScreen(boolean refreshAll=false)
 
 
   myGLCD.setColor(0, 0, 0);
-  myGLCD.fillRect(315, 10, 360, 87);                // Apagar todo el cuadro de temperaturas
-  myGLCD.fillRect(315, 99, 380, 205);                // Apagar todo el cuadro de Temporizadores 
   myGLCD.fillRect(10, 155, 195, 205);                // Apagar todo el cuadro de Alarmas
+  myGLCD.fillRect(315, 10, 360, 101);                // Apagar todo el cuadro de temperaturas
+  myGLCD.fillRect(315, 113, 380, 205);                // Apagar todo el cuadro de Temporizadores 
  
  
  // ************** Empieza a imprimir valores
@@ -171,14 +174,20 @@ void mainScreen(boolean refreshAll=false)
   myGLCD.printNumF(tempC, 2, 316, 14);            // Temperatura agua
   myGLCD.printNumF(tempH, 2, 316, 42);            // Temperatura disipador
   myGLCD.printNumF(tempHB, 2, 316, 70);           // Temperatura habitacion 
+  myGLCD.printNumF(PHA, 2, 316, 84);              // PH Acuario
 
  
-  myGLCD.setColor(255, 0, 0);
+  myGLCD.setColor(255, 0, 0);   // En color rojo lo siguiente
 
   if (bitRead(status_parametros,2)==true)             //Estado del agua
   {                               
     myGLCD.printNumF( tempC, 2, 316, 14);             // Temperatura en rojo
   }     
+  
+  if (bitRead(status_parametros,4) == true)  // Estado del pH
+  {                               
+    myGLCD.printNumF(PHA, 2, 316, 84);       // PH de aquario en rojo
+  }
   
   if (bitRead(status_parametros,0) == true)           //Estado ventilador disipador
   {
@@ -201,54 +210,56 @@ void mainScreen(boolean refreshAll=false)
     myGLCD.setColor(0, 255, 0);
     myGLCD.print("OFF", 316, 28);          // calentador desconectado
   }
+    
+  
+  
 
 // *********************** Iluminacion
   
   if (led_estado == 0)                  //Iluminacion en modo AUTO
   {
     myGLCD.setColor(0, 255, 0);         // En verde
-    myGLCD.print("AUTO",316,98);           
+    myGLCD.print("AUTO",316,112);           
   }
   else                                 // ILuminacion Modo MANUAL ON
   {
     myGLCD.setColor(0, 130, 255);
-    myGLCD.print("MAN. ON",316,98);    
+    myGLCD.print("MAN. ON",316,112);    
   }
    
-  if (bitRead(temporizador_status,0) == true) 
+  if (bitRead(status_parametros,3) == true) 
   {             
     myGLCD.setColor(0, 255, 0);
-    myGLCD.print("ON", 355, 98);           // Iluminacion conectada
+    myGLCD.print("ON", 355, 112);           // Iluminacion conectada
   }
   else
   {             
     myGLCD.setColor(255, 0, 0);            // en rojo
-    myGLCD.print("OFF", 355, 98);          // Iluminacion desconectada
+    myGLCD.print("OFF", 355, 112);          // Iluminacion desconectada
   }
-
-    
+   
 // *********************** Lampara UV
   
   if (temporizador_1_ativado == 1) 
   {             
     myGLCD.setColor(0, 255, 0);
-    myGLCD.print("AUTO", 316, 112);           // Lampara UV en modo AUTO
+    myGLCD.print("AUTO", 316, 126);           // Lampara UV en modo AUTO
   }
   else
   {             
     myGLCD.setColor(0, 130, 255);
-    myGLCD.print("MAN", 316, 112);          // Lampara UV MAN 
+    myGLCD.print("MAN", 316, 126);          // Lampara UV MAN 
   }
   
   if (bitRead(temporizador_status,1) == true) 
   {             
     myGLCD.setColor(0, 255, 0);
-    myGLCD.print("ON", 355, 112);           // Lampara UV conectada
+    myGLCD.print("ON", 355, 126);           // Lampara UV conectada
   }
   else
   {             
     myGLCD.setColor(255, 0, 0);
-    myGLCD.print("OFF", 355, 112);          // Lampara UV desconectada
+    myGLCD.print("OFF", 355, 126);          // Lampara UV desconectada
   }
   
   
@@ -257,52 +268,28 @@ void mainScreen(boolean refreshAll=false)
  if (temporizador_2_ativado == 1)        // Aireador en modo AUTO
  {
    myGLCD.setColor(0, 255, 0);
-   myGLCD.print("AUTO", 316,126);
+   myGLCD.print("AUTO", 316,140);
  }
  else
  {
    myGLCD.setColor(0, 130, 255);        // Aireador en modo MAN
-   myGLCD.print("MAN", 316, 126); 
+   myGLCD.print("MAN", 316, 140); 
  }
 
 
   if (bitRead(temporizador_status,2) == true) 
   {             
     myGLCD.setColor(0, 255, 0);
-    myGLCD.print("ON", 355, 126);           // Airedor activado
+    myGLCD.print("ON", 355, 140);           // Airedor activado
   }
   else
   {             
     myGLCD.setColor(255, 0, 0);
-    myGLCD.print("OFF", 355, 126);          // Aireador desactivado
+    myGLCD.print("OFF", 355, 140);          // Aireador desactivado
   }
   
-// *********************** Temporizador 3
+// *********************** CO2
  if (temporizador_3_ativado == 1)        // Temporizador 3 en modo AUTO
- {
-   myGLCD.setColor(0, 255, 0); 
-   myGLCD.print("AUTO",316, 140); 
- }
- else
-  {
-   myGLCD.setColor(0, 130, 255);        // Temporizador en modo MAN
-   myGLCD.print("MAN", 316, 140); 
- }
- 
-  
-  if (bitRead(temporizador_status,3) == true) 
-  {             
-    myGLCD.setColor(0, 255, 0);
-    myGLCD.print("ON", 355, 140);           // Timer 3 activado
-  }
-  else
-  {             
-    myGLCD.setColor(255, 0, 0);
-    myGLCD.print("OFF", 355, 140);          // Timer 3 desactivado
-  }
-  
-// *********************** Temporizador 4
- if (temporizador_4_ativado == 1)        // Temporizador 4 en modo AUTO
  {
    myGLCD.setColor(0, 255, 0); 
    myGLCD.print("AUTO",316, 154); 
@@ -312,21 +299,21 @@ void mainScreen(boolean refreshAll=false)
    myGLCD.setColor(0, 130, 255);        // Temporizador en modo MAN
    myGLCD.print("MAN", 316, 154); 
  }
-
-  if (bitRead(temporizador_status,4) == true) 
+ 
+  
+  if (bitRead(temporizador_status,3) == true) 
   {             
     myGLCD.setColor(0, 255, 0);
-    myGLCD.print("ON", 355, 154);           // Timer 4 activado
+    myGLCD.print("ON", 355, 154);           // Timer 3 activado
   }
   else
   {             
     myGLCD.setColor(255, 0, 0);
-    myGLCD.print("OFF", 355, 154);          // Timer 4 desactivado
+    myGLCD.print("OFF", 355, 154);          // Timer 3 desactivado
   }
   
-// *********************** Temporizador 5
-
- if (temporizador_5_ativado == 1)        // Temporizador 5 en modo AUTO
+// *********************** Temporizador 4
+ if (temporizador_4_ativado == 1)        // Temporizador 4 en modo AUTO
  {
    myGLCD.setColor(0, 255, 0); 
    myGLCD.print("AUTO",316, 168); 
@@ -336,16 +323,40 @@ void mainScreen(boolean refreshAll=false)
    myGLCD.setColor(0, 130, 255);        // Temporizador en modo MAN
    myGLCD.print("MAN", 316, 168); 
  }
-  
-  if (bitRead(temporizador_status,5) == true) 
+
+  if (bitRead(temporizador_status,4) == true) 
   {             
     myGLCD.setColor(0, 255, 0);
-    myGLCD.print("ON", 355, 168);           // Timer 5 activado
+    myGLCD.print("ON", 355, 168);           // Timer 4 activado
   }
   else
   {             
     myGLCD.setColor(255, 0, 0);
-    myGLCD.print("OFF", 355, 168);          // Timer 5 desactivado
+    myGLCD.print("OFF", 355, 168);          // Timer 4 desactivado
+  }
+  
+// *********************** Temporizador 5
+
+ if (temporizador_5_ativado == 1)        // Temporizador 5 en modo AUTO
+ {
+   myGLCD.setColor(0, 255, 0); 
+   myGLCD.print("AUTO",316, 182); 
+ }
+ else
+  {
+   myGLCD.setColor(0, 130, 255);        // Temporizador en modo MAN
+   myGLCD.print("MAN", 316, 182); 
+ }
+  
+  if (bitRead(temporizador_status,5) == true) 
+  {             
+    myGLCD.setColor(0, 255, 0);
+    myGLCD.print("ON", 355, 182);           // Timer 5 activado
+  }
+  else
+  {             
+    myGLCD.setColor(255, 0, 0);
+    myGLCD.print("OFF", 355, 182);          // Timer 5 desactivado
   }
 
   

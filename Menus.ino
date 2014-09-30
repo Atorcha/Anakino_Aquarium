@@ -12,6 +12,10 @@ void menuScreen()
 
   strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[5])));
   printButton(buffer, temC[0], temC[1], temC[2], temC[3]); // "TEMPERATURA."
+  
+  strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[6]))); 
+  printButton(buffer, graF[0], graF[1], graF[2], graF[3]); // "PH Acuario"
+
 
   strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[160])));
   printButton(buffer, ledW[0], ledW[1], ledW[2], ledW[3]); // tabela_textos[160] = "TEMPORIZADORES"
@@ -217,7 +221,56 @@ void temperaturatapa()
   
 }
 
- 
+//---------------------------------------------PH de aquario--------------------------------PANTALLA = 6 ----------
+
+void config_phA_Screen(boolean refreshAll=false)
+{
+
+  if (refreshAll)
+  {
+    if (setPHA==0) {
+      setPHA = PHA;  
+    }                  //change to current temp.
+    PHA2beS = setPHA;
+    PHA2beO = offPHA;
+    PHA2beA = alarmPHA;
+
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[39])));
+    printHeader(buffer); // tabela_textos[39] = "CONTROLE DE PH DO AQUARIO"
+
+    setFont(SMALL, 255, 255, 255, 0, 0, 0);
+
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[99])));
+    myGLCD.print(buffer, 110, 20); // "PH DESEJADO:"
+
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[75])));
+    myGLCD.print(buffer, 90, 70); // "VARIACAO PERMITIDA:"
+
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[76])));
+    myGLCD.print(buffer, 50, 120); // "VARIACAO PARA ACIONAR O ALARME:"
+
+    printButton("-", temM[0], temM[1], temM[2], temM[3], true);      //temp minus
+    printButton("+", temP[0], temP[1], temP[2], temP[3], true);      //temp plus
+    printButton("-", offM[0], offM[1], offM[2], offM[3], true);      //offset minus
+    printButton("+", offP[0], offP[1], offP[2], offP[3], true);      //offset plus
+    printButton("-", almM[0], almM[1], almM[2], almM[3], true);      //alarm minus
+    printButton("+", almP[0], almP[1], almP[2], almP[3], true);      //alarm plus
+
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[13])));
+    printButton(buffer, prOK[0], prOK[1], prOK[2], prOK[3]); // "SALVAR"
+
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[11])));
+    printButton(buffer, iniC[0], iniC[1], iniC[2], iniC[3]);  // "INICIO"
+
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[66])));
+    printButton(buffer, menU[0], menU[1], menU[2], menU[3]);
+  }
+
+  setFont(LARGE, 255, 255, 255, 0, 0, 0); 
+  myGLCD.printNumF(PHA2beS, 1, 135, 40);
+  myGLCD.printNumF(PHA2beO, 1, 140, 90);
+  myGLCD.printNumF(PHA2beA, 1, 140, 140);
+} 
 
 
 //---------------Peristalticas------------------------------tela =8
@@ -3255,7 +3308,7 @@ void config_comedero(boolean refreshAll=false)
 
 
 //--------------------------- Prueba manual de leds ----------------------------------------------------- PANTALLA =22
-/*void teste_individual_leds()
+void probar_leds()
 {
   wled_out_temp = wled_out;
 
@@ -3335,7 +3388,7 @@ void config_comedero(boolean refreshAll=false)
   desenhar_barras(cor_canal1[0], cor_canal1[1],cor_canal1[2], 49, 44, 93, 172);                                                            
 }
 
-*/
+
 
 
 //---------------------------------------- Opções de teste dos leds ---------------------- PANTALLA =25
@@ -4205,8 +4258,8 @@ void config_leds(boolean refreshAll=false)
   strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[202])));
   printHeader(buffer); // tabela_textos[2] = "CONFIGURAR LEDS"
 
-//  strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[4])));
-//  printButton(buffer, tanD[0], tanD[1], tanD[2], tanD[3]); // 1º boton, 1ª columna (probar led) 
+  strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[4])));
+  printButton(buffer, tanD[0], tanD[1], tanD[2], tanD[3]); // 1º boton, 1ª columna (probar led) 
 
   strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[7])));
   printButton(buffer, tesT[0], tesT[1], tesT[2], tesT[3]); // 2º boton, 1ª columna( camb fotoperiodo led) 

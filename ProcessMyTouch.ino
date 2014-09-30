@@ -49,7 +49,15 @@ void processMyTouch()
         dispScreen=3;
         clearScreen();
         seleccionartemperatura();        
-        } 
+        }
+        if ((y>=graF[1]) && (y<=graF[3]))           // seleciona funcion PH Acuario
+        {
+          waitForIt(graF[0], graF[1], graF[2], graF[3]);
+        dispScreen=18;
+        clearScreen();
+        config_phA_Screen(true); 
+        }       
+        
       }
       if ((x>=ledW[0]) && (x<=ledW[2]))                 //second column
       {
@@ -509,6 +517,98 @@ void processMyTouch()
         desativar_dosadoras(true);
       }
       break; 
+
+    case 18: //--------------------------Tela configuracao de ph do aquario-----------------------------------
+      if ((x>=prOK[0]) && (x<=prOK[2]) && (y>=prOK[1]) && (y<=prOK[3]))       //Funcao salvar
+      {
+        waitForIt(prOK[0], prOK[1], prOK[2], prOK[3]);
+        setPHA = PHA2beS;
+        offPHA = PHA2beO;
+        alarmPHA = PHA2beA;
+        dispScreen=1;
+        SavePHAToEEPROM();
+        clearScreen();
+        menuScreen(); 
+      } 
+      else
+      {
+        if ((x>=temM[0]) && (x<=temM[2]))                         // Primeira coluna
+        {
+          if ((y>=temM[1]) && (y<=temM[3]))                      //press ph minus
+          {
+            waitForIt(temM[0], temM[1], temM[2], temM[3]);
+            PHA2beS -= 0.1;
+            if (PHA2beS <0.1)
+            {
+              PHA2beS = 0.0;
+            }
+            config_phA_Screen();
+          }
+          if ((y>=offM[1]) && (y<=offM[3]))                       //press offset minus
+          {
+            waitForIt(offM[0], offM[1], offM[2], offM[3]);
+            PHA2beO -= 0.1;
+            if (PHA2beO < 0.1) {
+              PHA2beO = 0.0; 
+            }
+            config_phA_Screen();
+          }          
+          if ((y>=almM[1]) && (y<=almM[3]))                        //press alarm minus
+          {
+            waitForIt(almM[0], almM[1], almM[2], almM[3]);
+            PHA2beA -= 0.1;
+            if (PHA2beA < 0.1) {
+              PHA2beA = 0.0;  
+            }
+            config_phA_Screen();
+          }
+        }
+        if ((x>=temP[0]) && (x<=temP[2]))                             //Segunda coluna
+        {
+          if ((y>=temP[1]) && (y<=temP[3]))                      //press temp plus
+          {
+            waitForIt(temP[0], temP[1], temP[2], temP[3]);
+            PHA2beS += 0.1;
+            if (PHA2beS > 9.9)
+            {
+              PHA2beS = 9.9;
+            }            
+            config_phA_Screen();
+          }
+          if ((y>=offP[1]) && (y<=offP[3]))                           //press offset plus
+          {
+            waitForIt(offP[0], offP[1], offP[2], offP[3]);
+            PHA2beO += 0.1;
+            if (PHA2beO > 9.9)
+            {
+              PHA2beO = 9.9;
+            }
+            config_phA_Screen();
+          }
+          if ((y>=almP[1]) && (y<=almP[3]))                           //press alarm plus
+          {
+            waitForIt(almP[0], almP[1], almP[2], almP[3]);
+            PHA2beA += 0.1;
+            if (PHA2beA > 9.9)
+            {
+              PHA2beA = 9.9;
+            }
+            config_phA_Screen();
+          }
+        }
+        if ((x>=menU[0]) && (x<=menU[2]) && (y>=menU[1]) && (y<=menU[3]))           // volta ao menu
+        {
+          waitForIt(menU[0], menU[1], menU[2], menU[3]);
+          dispScreen=1;
+          clearScreen();
+          menuScreen(); 
+        } 
+
+      }
+      break;
+      
+
+
       
  //--------------- AUTOMATIC FISH FEEDER PAGE -----------------------------------------------PANTALLA = 19
      case 19:    
@@ -573,6 +673,7 @@ void processMyTouch()
          SetRele(comederopin, LOW);
         } 
     break;
+
 
     case 20:     //------------ CONFIGURAR HORARIOS COMEDERO ------------
     
@@ -4887,7 +4988,14 @@ void processMyTouch()
           clearScreen();
           config_leds();
           salvar_estado_EEPROM();
-        }      
+        }
+        if ((x>=tanD[0]) && x<=tanD[2] && (y>=tanD[1]) && (y<=tanD[3]))           // Testar leds
+      {
+        waitForIt(tanD[0], tanD[1], tanD[2], tanD[3]);   
+        dispScreen=25;
+        clearScreen();
+        probar_leds();
+      }      
 
       if ((x>=tesT[0]) && x<=tesT[2] && (y>=tesT[1]) && (y<=tesT[3]))           // Configurar fotoperiodo
       {
@@ -4963,9 +5071,8 @@ void processMyTouch()
           led_off_minuto = led_off_minuto_t; 
           led_off_hora = led_off_hora_t;
           amanecer_anochecer = amanecer_anochecer_t;
-
-       
-
+          pwm_percent = pwm_percent_t;
+          pwm_pre_definido = map(pwm_percent, 0, 100, 0, 255);
 
         }        
         

@@ -8,15 +8,26 @@ void loop()
 
   if (myTouch.dataAvailable())  
   { 
-    processMyTouch();  // Verifica ssi se pulsa la pantalla.
+    processMyTouch();  // Verifica si se pulsa la pantalla.
   }
 
 
-  if((Ethernet_Shield == true)) //&& (bitRead(tpa_status,1) == false)) // Condiciones para el envio a xively.com.
+  if((Ethernet_Shield == true))  // Condiciones para el envio a xively.com.
   {
     xively (); // Envia datos a xively
     netio();   // Comunica los datos con netio
   } 
+ 
+   if(dosadoras == true) // Verifica y ejecuta las dosificadoras.
+  {
+    check_dosagem_personalizada_1(); // Dosadora 1 - Dosagem personalizado
+    check_dosagem_personalizada_2(); // Dosadora 2 - Dosagem personalizado
+    check_dosagem_personalizada_3(); // Dosadora 3 - Dosagem personalizado
+    check_dosagem_personalizada_4(); // Dosadora 4 - Dosagem personalizado
+    check_dosagem_personalizada_5(); // Dosadora 5 - Dosagem personalizado
+    check_dosagem_personalizada_6(); // Dosadora 6 - Dosagem personalizado
+  }  
+
   
 
   if (dispScreen != 22)
@@ -32,6 +43,7 @@ void loop()
     previousMillis = millis();
     checkTempC(); // Verifica las temperaturas.
     min_cnt = NumMins(t.hour,t.min); // Atualiza intervalo para la potencia de leds
+    check_PH_aquario(); // Verifica el pH de acuario.    
     check_temporizadores(); // Verifica temporizadores
     feedingTimeOutput();   // Comprueba si hay que dar de comer a los peces
 

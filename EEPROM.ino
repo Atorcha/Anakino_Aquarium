@@ -12,6 +12,17 @@ tempSettings;
 
 
 
+struct config_PHA                         // PH do aquario
+{
+  int PHAset;
+  int PHAoff;
+  int PHAalarm;
+} 
+PHASettings;
+
+
+
+
 struct config_dos
 {
   int fator_calib_dosadora_1_temp;
@@ -172,6 +183,14 @@ void SaveTempToEEPROM()
   tempSettings.tempoff = int(offTempC*10);
   tempSettings.tempalarm = int(alarmTempC*10);
   EEPROM_writeAnything(482, tempSettings);
+}
+
+void SavePHAToEEPROM()
+{
+  PHASettings.PHAset = int(setPHA*10);
+  PHASettings.PHAoff = int(offPHA*10);
+  PHASettings.PHAalarm = int(alarmPHA*10);
+  EEPROM_writeAnything(520, PHASettings);
 }
 
 
@@ -337,6 +356,18 @@ void ReadFromEEPROM()
   alarmTempC = tempSettings.tempalarm;
   alarmTempC /= 10;
 
+}
+
+
+void lerPHAEEPROM()
+{
+  EEPROM_readAnything(520, PHASettings);  
+  setPHA = PHASettings.PHAset;
+  setPHA /=10;
+  offPHA = PHASettings.PHAoff;
+  offPHA /=10;
+  alarmPHA = PHASettings.PHAalarm;
+  alarmPHA /= 10;
 }
 
 

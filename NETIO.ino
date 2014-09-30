@@ -29,7 +29,7 @@ void netio()
            if (strstr(comando, "mluz")) { if (led_estado == 0)  { clienteApp.println("AUTO"); }                        //Modo Luz AUTO
                                                else { clienteApp.println("MANUAL"); }}                                 // Modo Luz MAN
                                                
-           if (strstr(comando, "luzest")) { if (bitRead(temporizador_status,0) == true) { clienteApp.println("ON"); } 
+           if (strstr(comando, "luzest")) { if (bitRead(status_parametros,3) == true) { clienteApp.println("ON"); } 
                                               else { clienteApp.println("OFF");  } }
                                               
            if (strstr(comando, "muv")) { if (temporizador_1_ativado == 1)  { clienteApp.println("AUTO"); }           // Modo Lampara UV Auto

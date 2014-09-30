@@ -81,30 +81,22 @@ void checkTempC()
         }     
 }
 
-/*void check_nivel() //verifica o nivel do reef e fish only.
-{
-  if((analogRead(sensor5) > 400) ||(analogRead(sensor6) > 400) || (analogRead(sensor2) < 100) && (bitRead(tpa_status,1) == false))
+void check_PH_aquario()
+{ 
+  if (PHA < (setPHA + offPHA + alarmPHA) && PHA > (setPHA - offPHA - alarmPHA)) 
   {
-    nivel_status =true; //sinaliza nivel baixo em um dos aquários ou sump
+    bitWrite(status_parametros,4,0);
   }
-  else 
+  if (alarmPHA > 0)           // Liga o alarme
   {
-    nivel_status =false; //sinaliza nivel normal dos aquários e sump
+    if ((PHA >= (setPHA + alarmPHA)) || (PHA <= (setPHA - offPHA - alarmPHA)))
+    {
+    bitWrite(status_parametros,4,1);
+    }
   }
-}*/
-
-
-/*void reposicao_agua_doce () // abre a solenoide 1 se o nível estiver baixo e se a tpa não estiver em andamento
-//e se o chiller estiver desligado e se o nível do sump não estiver anormal e se não houve falha durante uma tpa.
-{
-  if((analogRead(sensor3) > 400) && (analogRead(sensor2) > 400) && (bitRead(tpa_status,1) == false) && (bitRead(status_parametros,0) == false) && (bitRead(tpa_status,2) == false))
+  if (PHA < (setPHA - offPHA)) // Si el PH es menor del deseado o de la variacion permitida. 
   {
-    digitalWrite(solenoide1Pin,HIGH);
-    ato = true; //sinaliza reposição em andamento
-  }
-  else
-  {
-    ato = false;
-    digitalWrite(solenoide1Pin,LOW);
-  }
-}*/
+    bitWrite(status_parametros,5,0);
+    digitalWrite(temporizador1, LOW);  // Desliga co2 do reator de cálcio
+  }  
+}

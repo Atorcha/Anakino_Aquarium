@@ -209,11 +209,11 @@ int comedero4M_Temp = 0;
 //*********************** Parametros ******************************************************
 //*****************************************************************************************
 byte status_parametros = 0x0; // En esta variable podremos añadir los diferentes estados del sistema
-//bit 0;    tempCflag    // indica  el estado del calentador
-//bit 1;    ventflag     // estado ventilador disipador
-//bit 2;    tempAflag    // indica que la temperatura del agua esta fuera de rango (aviso en rojo ºC de la temp)
-
-
+//bit 0;     // estado ventilador disipador 
+//bit 1;     // estado del calentador
+//bit 2;     // estado de la temperatura (caliente) Influye alarma en pantalla
+//bit 3;     // estado de la iluminacion
+//bit 4;     // estado del PH del acuario
 
 //*****************************************************************************************
 //*********************** Variables de control de temperatura del agua ********************
@@ -227,6 +227,21 @@ float temperatura_agua_temp;       // Temperatura temporal del agua
 float temperatura_dissipador_temp; // Temperatura temporal del disipador
 float temperatura_habitacion_temp; // temperatura temporal de la habitacion
 int fanSpeed = 0;
+
+//*****************************************************************************************
+//************************ Variáveis do controle do PH do aquário *************************
+//*****************************************************************************************
+float PHA = 0;               // PH do aquário
+float setPHA = 0;           // PH desejado do aquário
+float offPHA = 0;           // Variaçãoo permitida do PH do aquário
+float alarmPHA = 0;         // Variação para acionar o alarme de ph do aquário
+
+//*****************************************************************************************
+//************************ Variable temporal del ph del acuario      *************
+//*****************************************************************************************
+float PHA2beS;             
+float PHA2beO;
+float PHA2beA;
 
 
 //*****************************************************************************************
@@ -276,6 +291,10 @@ byte predefinido = 0;
 
 int led_estado = 0;       // Variable que indicara el estado de la iluminacion MAN ON / MAN OFF / Automatico
 int led_estado_temp;  // Variable temporal del estado de la luz
+int potenciaIluminacionNormal   = 100; // Porcentaje de potencia de iluminacion normal de los leds                               
+int potenciaIluminacionReducida =  25; // Porcentaje de potencia de iluminacion de los leds cuando el disipador se sobrecalienta 
+
+int potenciaIluminacion = potenciaIluminacionNormal; // Porcentaje de potencia de iluminacion ACTUAL de los leds
 
 
 byte pwm_pre_definido = 255; // potencia de leds
@@ -490,7 +509,7 @@ int temporizador_5_ativado_temp2;
 //*****************************************************************************************
 //************************** Variable  dosificadoras ******************************************
 //*****************************************************************************************
-boolean dosadoras = false; //Cambiar a false en caso de no tener dosificadoras
+boolean dosadoras = true; //Cambiar a false en caso de no tener dosificadoras
 char time9;
 char time10;
 char time11;
