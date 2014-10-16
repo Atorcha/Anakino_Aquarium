@@ -1,6 +1,17 @@
 //**********************************************************************************************
 //************************ Funciones EEPROM ******************************************************
 //**********************************************************************************************
+struct luces                   // Estructura luces
+{
+  int hora_on_set;
+  int minuto_on_set;
+  int hora_off_set;
+  int minuto_off_set;
+  int duracion_set;
+  int potencia_set;
+}
+lucesSettings;
+
 
 struct config_t                              // Temperatura
 {
@@ -12,7 +23,7 @@ tempSettings;
 
 
 
-struct config_PHA                         // PH do aquario
+struct config_PHA                         // PH de acuario
 {
   int PHAset;
   int PHAoff;
@@ -173,8 +184,14 @@ struct comedero
 
 void SaveLEDToEEPROM()                  
 {
-  EEPROM.write(0, 123);         //to determine if data available in EEPROM
- 
+  lucesSettings.hora_on_set=int (led_on_hora);
+  lucesSettings.minuto_on_set=int (led_on_minuto);
+  lucesSettings.hora_off_set=int (led_off_hora);
+  lucesSettings.minuto_off_set=int (led_off_minuto);
+  lucesSettings.duracion_set=int (amanecer_anochecer);
+  lucesSettings.potencia_set=int (pwm_pre_definido); 
+  EEPROM_writeAnything(1, lucesSettings);
+   
 }
 
 void SaveTempToEEPROM()
@@ -342,11 +359,14 @@ void salvar_comederos_EEPROM()
   
 void ReadFromEEPROM()
 {
-  int k = EEPROM.read(0);
-  if (k==123) 
-  {
+  EEPROM_readAnything(1, lucesSettings);
+  led_on_hora=lucesSettings.hora_on_set;
+  led_on_minuto=lucesSettings.minuto_on_set;
+  led_off_hora=lucesSettings.hora_off_set;
+  led_off_minuto=lucesSettings.minuto_off_set;
+  amanecer_anochecer=lucesSettings.duracion_set;
+  pwm_pre_definido=lucesSettings.potencia_set;
   
-  }
 
   EEPROM_readAnything(482, tempSettings);  
   setTempC = tempSettings.tempset;

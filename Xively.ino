@@ -17,8 +17,7 @@ void xively()
       datastreams[9].setInt((millis()/1000)/60);         //Serial.println((millis()/1000)/60);
       datastreams[10].setInt(LedToPercent(wled_out));     //Serial.print(LedToPercent(wled_out));Serial.println("  Led Blanco");
       datastreams[11].setInt(LedToPercent(moonled_out));  //Serial.print(LedToPercent(moonled_out));Serial.println("  Luz luna");
-      datastreams[12].setInt(digitalRead(ReleLuz));       //Serial.print(digitalRead(ReleLuz));Serial.println(" ReleLuz");
-
+  //  datastreams[12].setInt(digitalRead(ReleLuz));       //Serial.print(digitalRead(ReleLuz));Serial.println(" ReleLuz");
   //  datastreams[14].setInt(LedToPercent(rbled_out));    //Serial.print(LedToPercent(rbled_out));Serial.println("  Led azul royal");
   //  datastreams[15].setInt(LedToPercent(rled_out));     //Serial.print(LedToPercent(rled_out));Serial.println("  Led rojo");
   //  datastreams[16].setInt(bitRead(status_parametros,5));// Serial.print(status_parametros,5);Serial.println("  CO2");// CO2

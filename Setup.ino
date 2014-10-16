@@ -6,14 +6,19 @@ void setup()
 
   Ethernet.begin(mac, ip);
   servidorArduino.begin();
-  pinMode(PWMLuz, OUTPUT);
+  pinMode(PWMLed, OUTPUT);
   pinMode(ledPinMoon, OUTPUT); 
   pinMode(calentadorPin, OUTPUT);
   pinMode(alarmPin, OUTPUT);
   pinMode(fanPin, OUTPUT);
   pinMode (4, OUTPUT);  //sd card
   digitalWrite (4, HIGH);
-  pinMode (ReleLuz, OUTPUT);
+  pinMode (dosadora1, OUTPUT);
+  pinMode (dosadora2, OUTPUT);
+  pinMode (dosadora3, OUTPUT);
+  pinMode (dosadora4, OUTPUT);
+  pinMode (dosadora5, OUTPUT);
+  pinMode (dosadora6, OUTPUT);  
   pinMode (temporizador1, OUTPUT);
   pinMode (temporizador2, OUTPUT);
   pinMode (temporizador3, OUTPUT);
@@ -43,6 +48,8 @@ void setup()
   
   //Lee las variables guardadas en la eeprom.
   ReadFromEEPROM();
+  lerPHAEEPROM();
+  ler_dosadora_EEPROM();  
   ler_luz_noturna_EEPROM();
   ler_timers_EEPROM();
   ler_led_estado_EEPROM();

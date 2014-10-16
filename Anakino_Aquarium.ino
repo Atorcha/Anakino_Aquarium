@@ -1,3 +1,4 @@
+
 //
 //******************** Anakino_Aquarium es un codigo para arduino basado en Ferduino para adaptarlo a agua dulce y con añadidos.
 //
@@ -97,7 +98,7 @@ char buffer[70];
 const int alarmPin = 0;          // Pin que acciona la alarma
 // Pines 2, 3, 4, 5, 6     reservado para el  Touch.
 const int fanPin = 7;      // Pin que controla la velocidad de ventilador del disipador // Conexion  nº 3 azul
-const int PWMLuz = 8;      // Pin que controla PWM luz dimeable  // Conexion nº 1 amarillo
+const int PWMLed = 8;      // Pin que controla PWM luz dimeable  // Conexion nº 1 amarillo
 //const int Pin = 9;       // Pin libre
 //const int Pin = 11;      // Pin libre
 const int ledPinMoon = 12; // Pin que activa los leds de luz nocturna // Conexion nº 2 Verde
@@ -113,16 +114,14 @@ const int ledPinMoon = 12; // Pin que activa los leds de luz nocturna // Conexio
 
 // Pin 42 reservado para los sensores de temperatura
 
-// *******************  Placa de reles ************************
-
-const int calentadorPin  = 43;  // Rele 1 => Enchufe 1  ****** Pin que activa el calentador 
-const int ReleLuz = 44;         // Rele 2 => Enchufe 2  ****** Pin que activa el rele de la luz
-const int temporizador1 = 45;   // Rele 3 => Enchufe 3  ****** Pin de activacion de timer 1 ( bomba aire )  
-const int temporizador2 = 46;   // Rele 4 => Enchufe 4  ****** Pin de activacion de timer 2 ( Lampara UV )
-const int temporizador3 = 47;   // Rele 4 => Enchufe 4  ****** Pin de activacion de timer 3 
-const int temporizador4 = 48;   // Rele 5 => Enchufe XX ****** Pin de activacion de timer 4 
-const int temporizador5 = 49;   // Rele 6 => Enchufe XX ****** Pin de activacion de timer 5  
-const int comederopin = 50;     // Rele 7 =>            ****** Pin de comedero
+const int calentadorPin  = 43;  // Rele 1 => Enchufe 1  ****** Pin que activa el calentador
+//********************* Temporizadores **********************
+const int temporizador1 = 44;   // Rele x => Enchufe 2  ****** Pin de activacion de timer 1 ( bomba aire )  
+const int temporizador2 = 45;   // Rele x => Enchufe 3  ****** Pin de activacion de timer 2 ( Lampara UV )
+const int temporizador3 = 46;   // Rele x => Enchufe 4  ****** Pin de activacion de timer 3 ( CO2 )
+const int temporizador4 = 47;   // Rele x => Enchufe XX ****** Pin de activacion de timer 4 
+const int temporizador5 = 48;   // Rele x => Enchufe XX ****** Pin de activacion de timer 5  
+const int comederopin = 49;     // Rele 7 =>            ****** Pin de comedero
 
 // ******************************************************************************************
 
@@ -218,10 +217,10 @@ byte status_parametros = 0x0; // En esta variable podremos añadir los diferente
 //*****************************************************************************************
 //*********************** Variables de control de temperatura del agua ********************
 //*****************************************************************************************
-float tempC = 0;              // Temperatura de agua
-float setTempC = 25;          // Temperatura deseada
-float offTempC = 0.5;         // Variacion permitida de temperatura
-float alarmTempC = 3;         // Variacion para acionar la alarma de temperatura de agua
+float tempC;              // Temperatura de agua
+float setTempC;          // Temperatura deseada
+float offTempC;         // Variacion permitida de temperatura
+float alarmTempC;         // Variacion para acionar la alarma de temperatura de agua
 int contador_temp = 0;
 float temperatura_agua_temp;       // Temperatura temporal del agua
 float temperatura_dissipador_temp; // Temperatura temporal del disipador
@@ -303,8 +302,8 @@ byte led_on_hora = 13;       // Horario para encender leds.
 byte led_on_minuto = 00;
 byte led_off_hora = 21;     // Horario para apagar leds.
 byte led_off_minuto = 0;   
-
 byte amanecer_anochecer = 30;   //Tiempo en amanecer o anochecer
+
 byte pwm_percent_t;
 byte led_on_minuto_t;      // Horarios temporales
 byte led_on_hora_t;
@@ -382,7 +381,7 @@ char data8[] = "T4";
 char data9[] = "Crono";
 char data10[] = "Luz_Blanca";
 char data11[] = "Luz_luna";
-char data12[] = "Rele_Luz";
+//char data12[] = "Rele_Luz";
 /*char data14[] = "L.Blanco";
 char data15[] = "15";
 char data16[] = "16";
@@ -405,8 +404,8 @@ XivelyDatastream(data8, strlen(data8), DATASTREAM_INT),
 XivelyDatastream(data9, strlen(data9), DATASTREAM_INT),
 XivelyDatastream(data10, strlen(data10), DATASTREAM_INT),
 XivelyDatastream(data11, strlen(data11), DATASTREAM_INT),
-XivelyDatastream(data12, strlen(data12), DATASTREAM_INT),
-/*XivelyDatastream(data13, strlen(data13), DATASTREAM_INT),
+/*XivelyDatastream(data12, strlen(data12), DATASTREAM_INT),
+XivelyDatastream(data13, strlen(data13), DATASTREAM_INT),
 XivelyDatastream(data14, strlen(data14), DATASTREAM_INT),
 XivelyDatastream(data15, strlen(data15), DATASTREAM_INT),
 XivelyDatastream(data16, strlen(data16), DATASTREAM_INT),
@@ -414,7 +413,7 @@ XivelyDatastream(data17, strlen(data17), DATASTREAM_INT)
 */
 };
 
-XivelyFeed feed(157388679, datastreams, 13); // numero de datastreams
+XivelyFeed feed(157388679, datastreams, 12); // numero de datastreams
 EthernetClient client;
 XivelyClient xivelyclient(client);
 char xivelyKey[]= "IztIl4jRHL0vLd6fFkwnXwLZ7YbuAi6jmr8kAXPO5RxrDkQQ"; // replace your xively api key here

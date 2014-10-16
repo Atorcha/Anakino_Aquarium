@@ -101,37 +101,32 @@ void LED_levels_output()
 //********************************** Variacion de iluminacion en funcion del modo y temperatura
      if (led_estado == 0)            // Si seleccionamos en modo AUTO el valor sera 0 y se ejecuta la funcion normal
        {
-        analogWrite(PWMLuz,    w_out * potenciaIluminacion / 100 );         // Añadido control de potencia de iluminacion
+        analogWrite(PWMLed,    w_out * potenciaIluminacion / 100 );         // Añadido control de potencia de iluminacion
         analogWrite(ledPinMoon,  moon_out );   // No afecta variacion iluminacion a led de noche
   
           if (wled_out == 0)                     //Si el valor de salida es igual a cero y esta seleccionado modo OFF
             {
               bitWrite(status_parametros,3,0);   //Estado de la luz OFF
-              SetRele(ReleLuz,LOW);              //Apagamos el rele de la luz
             }
            else 
            {
              bitWrite(status_parametros,3,1);     // Estado de la luz ON
-             SetRele(ReleLuz,HIGH);               // Sino lo dejamos encendido
            }
   
         }
     
     else if (led_estado == 1) // El estado del modo es ON entonces directamente enciende los leds al 100%    
     {
-    analogWrite(PWMLuz,   255 );          // Se ilumina al 100%
+    analogWrite(PWMLed,   255 );          // Se ilumina al 100%
     analogWrite(ledPinMoon,    moon_out );// No le afecta a luz noche 
     bitWrite(status_parametros,3,1);      // Estado de la luz ON
-    SetRele(ReleLuz,HIGH);                // Rele luz ON // Borrar esta linea en caso de no usar luz T5
-        
-    }
+   }
     
     else if (led_estado == 2)
     {
-    analogWrite(PWMLuz,   0 );             // Se apaga
+    analogWrite(PWMLed,   0 );             // Se apaga
     analogWrite(ledPinMoon,    moon_out ); // No le afecta a luz noche    
     bitWrite(status_parametros,3,0);       //Estado de la luz OFF
-    SetRele(ReleLuz,LOW);                  //Rele Luz OFF
     }
 }
 

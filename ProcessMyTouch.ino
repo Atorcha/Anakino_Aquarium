@@ -5004,7 +5004,8 @@ void processMyTouch()
       led_on_hora_t = led_on_hora;
       led_off_minuto_t = led_off_minuto; 
       led_off_hora_t = led_off_hora;
-      amanecer_anochecer_t = amanecer_anochecer; 
+      amanecer_anochecer_t = amanecer_anochecer;
+      pwm_percent_t = pwm_percent;
       waitForIt(tesT[0], tesT[1], tesT[2], tesT[3]);   
       dispScreen=44;
       clearScreen();
@@ -5073,7 +5074,7 @@ void processMyTouch()
           amanecer_anochecer = amanecer_anochecer_t;
           pwm_percent = pwm_percent_t;
           pwm_pre_definido = map(pwm_percent, 0, 100, 0, 255);
-
+          SaveLEDToEEPROM();
         }        
         
         
