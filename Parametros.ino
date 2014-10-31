@@ -97,6 +97,6 @@ void check_PH_aquario()
   if (PHA < (setPHA - offPHA)) // Si el PH es menor del deseado o de la variacion permitida. 
   {
     bitWrite(status_parametros,5,0);
-    digitalWrite(temporizador1, LOW);  // Desliga co2 do reator de cálcio
+    digitalWrite(temporizador1, LOW);  // Desactiva co2 
   }  
 }

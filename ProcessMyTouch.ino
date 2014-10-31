@@ -4493,15 +4493,15 @@ void processMyTouch()
           waitForIt(domI[0]-20, domI[1], domI[2]+20, domI[3]);
           if(temporizador_1_ativado_temp2 == 0)
           {
-            temporizador_1_ativado_temp2 = 1;
+            temporizador_1_ativado_temp2 = 1; Serial.println("temporizador activado = 1");
           }
           else if(temporizador_1_ativado_temp2 == 1)
           {
-            temporizador_1_ativado_temp2 = 2;
+            temporizador_1_ativado_temp2 = 2; Serial.println("temporizador activado = 2");
           }
           else if (temporizador_1_ativado_temp2 == 2)
           {
-            temporizador_1_ativado_temp2 = 0;
+            temporizador_1_ativado_temp2 = 0; Serial.println("temporizador activado = 0");
           }          
           config_timer();
         }

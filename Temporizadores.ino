@@ -4,7 +4,7 @@ void check_temporizadores()
   if (temporizador_1_ativado == 1) 
   {  
     if(NumMins(off1_hora,off1_minuto) > NumMins(on1_hora,on1_minuto))
-    {
+    { 
       if((NumMins(t.hour,t.min) >= NumMins(on1_hora,on1_minuto)) && (NumMins(t.hour,t.min) <= NumMins(off1_hora,off1_minuto)))
       {
         SetRele(temporizador1, HIGH);        // activa rele
@@ -46,6 +46,7 @@ void check_temporizadores()
     SetRele(temporizador1, LOW);            // desactiva rele
     bitWrite(temporizador_status,1,0);
   }
+///////////////////////////////////////////////////////////  TEMPORIZADOR 2
 
   if (temporizador_2_ativado == 1) 
   {

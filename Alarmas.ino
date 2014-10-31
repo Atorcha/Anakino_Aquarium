@@ -40,5 +40,13 @@ void check_alarmas()        // Imprime el texto de las alarmas
        bitWrite(msg_enviado,0,0);
        }       
       }
+      
+     else if (bitRead(status_parametros,0) == true) // Si hay alarma de temperatura de tapa
+       {
+       myGLCD.setColor(255, 0, 0); 
+       myGLCD.print("ALARMA", 50, 155);
+       myGLCD.print("TEMPERATURA", 12, 170);
+       myGLCD.print("TAPA", 35, 185);
+       }
   }
 

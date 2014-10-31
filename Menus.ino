@@ -2058,7 +2058,7 @@ void config_dosagem_personalizada(boolean refreshAll=false)
 
 
 
-// ----------tela =31
+// Configuracion dosificacion personalizada 2----------tela =31
 void config_dosagem_personalizada_2(boolean refreshAll=false) 
 {
   if(refreshAll)
@@ -2316,7 +2316,11 @@ void rever_configuracao_dosadoras()
   strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[66])));
   printButton(buffer, volT[0], volT[1], volT[2], volT[3]); // tabela_textos[66]
 } 
-void rever_dosagem_personalizada() // ------------------------------------------------------------------tela =34
+
+
+// Regresar dosificacion personalizada------------------------------------------tela =34
+
+void rever_dosagem_personalizada() 
 {
   strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[50])));
   printHeader(buffer); // tabela_textos[50] = "REVER CONF. DA DOSAGEM PERSONALIZADA"

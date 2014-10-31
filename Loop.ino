@@ -14,7 +14,7 @@ void loop()
 
   if((Ethernet_Shield == true))  // Condiciones para el envio a xively.com.
   {
-    xively (); // Envia datos a xively
+   // xively (); // Envia datos a xively
     netio();   // Comunica los datos con netio
   } 
  

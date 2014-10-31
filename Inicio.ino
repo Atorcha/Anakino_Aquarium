@@ -238,41 +238,41 @@ void mainScreen(boolean refreshAll=false)
     myGLCD.print("OFF", 355, 112);          // Iluminacion desconectada
   }
    
-// *********************** Lampara UV
+// *********************** TEMPORIZADOR 1
   
   if (temporizador_1_ativado == 1) 
   {             
     myGLCD.setColor(0, 255, 0);
-    myGLCD.print("AUTO", 316, 126);           // Lampara UV en modo AUTO
+    myGLCD.print("AUTO", 316, 126);           // modo AUTO
   }
   else
   {             
     myGLCD.setColor(0, 130, 255);
-    myGLCD.print("MAN", 316, 126);          // Lampara UV MAN 
+    myGLCD.print("MAN", 316, 126);          // MAN 
   }
   
   if (bitRead(temporizador_status,1) == true) 
   {             
     myGLCD.setColor(0, 255, 0);
-    myGLCD.print("ON", 355, 126);           // Lampara UV conectada
+    myGLCD.print("ON", 355, 126);           // conectada
   }
   else
   {             
     myGLCD.setColor(255, 0, 0);
-    myGLCD.print("OFF", 355, 126);          // Lampara UV desconectada
+    myGLCD.print("OFF", 355, 126);          // desconectada
   }
   
   
-// *********************** Aireador
+// *********************** TEMPORIZADOR 2
 
- if (temporizador_2_ativado == 1)        // Aireador en modo AUTO
+ if (temporizador_2_ativado == 1)        //  modo AUTO
  {
    myGLCD.setColor(0, 255, 0);
    myGLCD.print("AUTO", 316,140);
  }
  else
  {
-   myGLCD.setColor(0, 130, 255);        // Aireador en modo MAN
+   myGLCD.setColor(0, 130, 255);        //  modo MAN
    myGLCD.print("MAN", 316, 140); 
  }
 
@@ -280,15 +280,16 @@ void mainScreen(boolean refreshAll=false)
   if (bitRead(temporizador_status,2) == true) 
   {             
     myGLCD.setColor(0, 255, 0);
-    myGLCD.print("ON", 355, 140);           // Airedor activado
+    myGLCD.print("ON", 355, 140);           // activado
   }
   else
   {             
     myGLCD.setColor(255, 0, 0);
-    myGLCD.print("OFF", 355, 140);          // Aireador desactivado
+    myGLCD.print("OFF", 355, 140);          //  desactivado
   }
   
-// *********************** CO2
+// *********************** TEMPORIZADOR 3
+
  if (temporizador_3_ativado == 1)        // Temporizador 3 en modo AUTO
  {
    myGLCD.setColor(0, 255, 0); 
@@ -313,6 +314,7 @@ void mainScreen(boolean refreshAll=false)
   }
   
 // *********************** Temporizador 4
+
  if (temporizador_4_ativado == 1)        // Temporizador 4 en modo AUTO
  {
    myGLCD.setColor(0, 255, 0); 

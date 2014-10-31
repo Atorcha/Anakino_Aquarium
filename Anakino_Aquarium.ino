@@ -14,10 +14,10 @@
 //      Combinacion de colores para la conexion de la placa de reles.
 //                 Reles *** Conector *********   Arduino
 //                 - GND   => Cable rojo     => Negro GND
-//                 - Pin 1 => Cable marron   => Naranja         (Calentador
-//                 - Pin 2 => Cable mostaza  => Naranja/negro   (Luces)
-//                 - Pin 3 => Cable morado   => Amarillo/negro  (Aireador)
-//                 - Pin 4 => Cable gris     => Negro enfundado (UV)
+//                 - Pin 1 => Cable marron   => Naranja         (Calentador)
+//                 - Pin 2 => Cable mostaza  => Naranja/negro   (TEMPORIZADOR 1)
+//                 - Pin 3 => Cable morado   => Amarillo/negro  (TEMPORIZADOR 2)
+//                 - Pin 4 => Cable gris     => Negro enfundado (TEMPORIZADOR 3)
 //                 - Pin 5 => Cable azul     => Verde/Negro
 //                 - Pin 6 => cable verde    => Verde
 //                 - Pin 7 => cable XXXX
@@ -116,11 +116,11 @@ const int ledPinMoon = 12; // Pin que activa los leds de luz nocturna // Conexio
 
 const int calentadorPin  = 43;  // Rele 1 => Enchufe 1  ****** Pin que activa el calentador
 //********************* Temporizadores **********************
-const int temporizador1 = 44;   // Rele x => Enchufe 2  ****** Pin de activacion de timer 1 ( bomba aire )  
-const int temporizador2 = 45;   // Rele x => Enchufe 3  ****** Pin de activacion de timer 2 ( Lampara UV )
-const int temporizador3 = 46;   // Rele x => Enchufe 4  ****** Pin de activacion de timer 3 ( CO2 )
-const int temporizador4 = 47;   // Rele x => Enchufe XX ****** Pin de activacion de timer 4 
-const int temporizador5 = 48;   // Rele x => Enchufe XX ****** Pin de activacion de timer 5  
+const int temporizador1 = 44;   // Rele x => Enchufe 2  ****** Pin de activacion de TEMPORIZADOR 1   
+const int temporizador2 = 45;   // Rele x => Enchufe 3  ****** Pin de activacion de TEMPORIZADOR 2 
+const int temporizador3 = 46;   // Rele x => Enchufe 4  ****** Pin de activacion de TEMPORIZADOR 3 
+const int temporizador4 = 47;   // Rele x => Enchufe XX ****** Pin de activacion de TEMPORIZADOR 4 
+const int temporizador5 = 48;   // Rele x => Enchufe XX ****** Pin de activacion de TEMPORIZADOR 5  
 const int comederopin = 49;     // Rele 7 =>            ****** Pin de comedero
 
 // ******************************************************************************************
@@ -246,8 +246,8 @@ float PHA2beA;
 //*****************************************************************************************
 //************************ Variables del control de la velocidad del ventilador ***********
 //*****************************************************************************************
-const int HtempMin = 30;    // Declara la temperatura para iniciar el funcionamiento de la velocidad del ventilador 
-const int HtempMax = 40;    // Declara que el ventilador debe estar a su maxima velocidad cuando el disipado este a  40º
+const int HtempMin = 40;    // Declara la temperatura para iniciar el funcionamiento de la velocidad del ventilador 
+const int HtempMax = 50;    // Declara que el ventilador debe estar a su maxima velocidad cuando el disipado este a  50º
 
 
 //*****************************************************************************************
@@ -256,7 +256,7 @@ const int HtempMax = 40;    // Declara que el ventilador debe estar a su maxima 
 float tempH = 0;            // Temperatura del disipador
 float tempHB = 0;
 
-byte tempHMAX          = 40; // Temperatura máxima del disipador en la cual se reducirá la potencia de la iluminación  
+byte tempHMAX          = 55;// Temperatura máxima del disipador en la cual se reducirá la potencia de la iluminación  
 byte tempHMAZX_t;            // Valor temporal de la temperatura maxima del disipador
 byte tempHRecuperacion = 37; // Temperatura de recuperación de potencia completa de la iluminación                    
 byte tempHRecuperacion_t;    // Valor temporal de la recuperacion de potencia
