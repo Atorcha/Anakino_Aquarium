@@ -416,7 +416,7 @@ XivelyDatastream(data17, strlen(data17), DATASTREAM_INT)
 XivelyFeed feed(157388679, datastreams, 12); // numero de datastreams
 EthernetClient client;
 XivelyClient xivelyclient(client);
-char xivelyKey[]= "IztIl4jRHL0vLd6fFkwnXwLZ7YbuAi6jmr8kAXPO5RxrDkQQ"; // replace your xively api key here
+char xivelyKey[]= "XXXXXXXXXXXXX"; // replace your xively api key here
 // assign a MAC address for the ethernet controller.
 // Newer Ethernet shields have a MAC address printed on a sticker on the shield
 // fill in your address here:
@@ -429,7 +429,7 @@ int xivelyReturn = 0;    // Result Return code from data send
 //************************** tweeter ******************************************
 //*****************************************************************************************
 
-Twitter twitter("1692134557-fzSysgvsLE9DMKAQEFt0aashH7QGFAqZMe8VrY1"); // Your Token to Tweet (get it from http://arduino-tweet.appspot.com/)
+Twitter twitter("XXXXXXXXXXXXXX"); // Your Token to Tweet (get it from http://arduino-tweet.appspot.com/)
 
 byte msg_enviado = 0x0;
 // byte 1 = sistema ok
