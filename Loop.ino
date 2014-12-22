@@ -2,9 +2,9 @@
 void loop()
 {
 
-  t = rtc.getTime(); // Atualiza as variáveis que usam o RTC.   
+  t = rtc.getTime(); // Actualiza las variables que usa el  RTC.   
 
-  LED_levels_output(); // Atualiza la potencia  de salida de los  leds
+  LED_levels_output(); // Actualiza la potencia  de salida de los  leds
 
   if (myTouch.dataAvailable())  
   { 
@@ -14,7 +14,7 @@ void loop()
 
   if((Ethernet_Shield == true))  // Condiciones para el envio a xively.com.
   {
-   // xively (); // Envia datos a xively
+    xively (); // Envia datos a xively
     netio();   // Comunica los datos con netio
   } 
  
@@ -36,7 +36,7 @@ void loop()
 
   }
 
-  if (millis() - previousMillis > 5000)    // Verifica laas funciones cada 5 segundos.
+  if (millis() - previousMillis > 5000)    // Verifica las funciones cada 5 segundos.
   {
     Serial.print("Verifica funciones");
     Serial.println("");
@@ -61,6 +61,9 @@ void loop()
 
     Serial.print ("Memoria libre:");
     Serial.println (FreeRam());
+    Serial.println("");      //imprime otro salto de linea
+    Serial.print ("Modo AUTO Luces: "); 
+    Serial.print ( w_out * pwm_percent/100);
     Serial.println("");      //imprime otro salto de linea
     
   }

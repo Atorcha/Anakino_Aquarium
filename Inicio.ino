@@ -108,10 +108,10 @@ void mainScreen(boolean refreshAll=false)
     myGLCD.print(buffer, 212, 112); // tabela_textos[185] = "ILUMINACION:"   
 
     strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[31])));
-    myGLCD.print(buffer, 212, 126); // tabela_textos[31] = "LAMPARA UV"
+    myGLCD.print(buffer, 212, 126); // tabela_textos[31] = "AIREADOR"
 
     strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[77])));
-    myGLCD.print(buffer, 212, 140); // tabela_textos[77] = "AIREADOR"
+    myGLCD.print(buffer, 212, 140); // tabela_textos[77] = "LAMPARA UV"
 
     strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[78])));
     myGLCD.print(buffer, 212, 154); // tabela_textos[78] = "CO2:"

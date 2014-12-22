@@ -204,7 +204,7 @@ void tempScreen(boolean refreshAll=false)
   myGLCD.printNumF(temp2beO, 1, 140, 90);
   myGLCD.printNumF(temp2beA, 1, 140, 140);
 }
-//-------------------------------- Configurar temperatura tapa ----------------------------------- PANTALLA =5
+//-------------------------------- Configurar temperatura Maxima del agua ----------------------------------- PANTALLA =5
 void temperaturatapa()
 {
     strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[34])));

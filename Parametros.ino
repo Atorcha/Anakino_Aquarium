@@ -56,27 +56,27 @@ void checkTempC()
   }
 
 
-  // **************** Gestion del ventilador del disipador  *******
-     if (tempH > 32)
+  // **************** Gestion del ventilador para refrigeracion del agua  *******
+     if (tempH > HtempMin)
            {     
             int tempval = int(tempH * 10);     
             fanSpeed = map(tempval, (HtempMin * 10), (HtempMax * 10), 0, 255);       //---------Control de velocidad de los ventiladores del disipador
             if (fanSpeed <= 0)                      //30°c = 0 volts -- 40°c = 5 volts
             {
              (fanSpeed = 0);
-             (bitWrite(status_parametros,0,0)); //ventflag apagado
+             (bitWrite(status_parametros,0,0)); //ventilador apagado
             }
          
-       else bitWrite(status_parametros,0,1);   //ventflag activado
+       else bitWrite(status_parametros,0,1);   //ventilador activado
                             
       if (fanSpeed > 255)    fanSpeed = 255;
       analogWrite(fanPin, fanSpeed);
           }
           
-     if (tempH <= 30 )
+     if (tempH <= HtempMin )
         {
         (fanSpeed = 0);
-        (bitWrite(status_parametros,0,0)); //ventflag apagado
+        (bitWrite(status_parametros,0,0)); //ventilador apagado
          analogWrite(fanPin, fanSpeed);
         }     
 }

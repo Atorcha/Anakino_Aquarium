@@ -31,7 +31,7 @@ void LED_levels_output()
          }
          else
          {
-         wled_out = pwm_pre_definido;
+         wled_out = pwm_absoluto;
          } 
          
 
@@ -51,7 +51,7 @@ void LED_levels_output()
              }
             else 
             {
-              wled_out = pwm_pre_definido;
+              wled_out = pwm_absoluto;
              }
           }
           else if(NumMins(t.hour,t.min) <= (NumMins(led_off_hora,led_off_minuto) + amanecer_anochecer))
@@ -62,7 +62,7 @@ void LED_levels_output()
              }
             else 
             {
-              wled_out = pwm_pre_definido;
+              wled_out = pwm_absoluto;
              }
           }
           else
@@ -101,7 +101,8 @@ void LED_levels_output()
 //********************************** Variacion de iluminacion en funcion del modo y temperatura
      if (led_estado == 0)            // Si seleccionamos en modo AUTO el valor sera 0 y se ejecuta la funcion normal
        {
-        analogWrite(PWMLed,    w_out * potenciaIluminacion / 100 );         // Añadido control de potencia de iluminacion
+        
+        analogWrite(ledPinWhite,    w_out * pwm_percent/ 100 );    // Añadido control de potencia de iluminacion
         analogWrite(ledPinMoon,  moon_out );   // No afecta variacion iluminacion a led de noche
   
           if (wled_out == 0)                     //Si el valor de salida es igual a cero y esta seleccionado modo OFF
@@ -117,14 +118,14 @@ void LED_levels_output()
     
     else if (led_estado == 1) // El estado del modo es ON entonces directamente enciende los leds al 100%    
     {
-    analogWrite(PWMLed,   255 );          // Se ilumina al 100%
+    analogWrite(ledPinWhite,   255 );          // Se ilumina al 100%
     analogWrite(ledPinMoon,    moon_out );// No le afecta a luz noche 
     bitWrite(status_parametros,3,1);      // Estado de la luz ON
    }
     
     else if (led_estado == 2)
     {
-    analogWrite(PWMLed,   0 );             // Se apaga
+    analogWrite(ledPinWhite,   0 );             // Se apaga
     analogWrite(ledPinMoon,    moon_out ); // No le afecta a luz noche    
     bitWrite(status_parametros,3,0);       //Estado de la luz OFF
     }

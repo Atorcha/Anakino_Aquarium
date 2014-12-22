@@ -9,6 +9,7 @@ struct luces                   // Estructura luces
   int minuto_off_set;
   int duracion_set;
   int potencia_set;
+  int percent_set;
 }
 lucesSettings;
 
@@ -189,7 +190,8 @@ void SaveLEDToEEPROM()
   lucesSettings.hora_off_set=int (led_off_hora);
   lucesSettings.minuto_off_set=int (led_off_minuto);
   lucesSettings.duracion_set=int (amanecer_anochecer);
-  lucesSettings.potencia_set=int (pwm_pre_definido); 
+  lucesSettings.potencia_set=int (pwm_absoluto);
+  lucesSettings.percent_set=int (pwm_percent);
   EEPROM_writeAnything(1, lucesSettings);
    
 }
@@ -365,7 +367,8 @@ void ReadFromEEPROM()
   led_off_hora=lucesSettings.hora_off_set;
   led_off_minuto=lucesSettings.minuto_off_set;
   amanecer_anochecer=lucesSettings.duracion_set;
-  pwm_pre_definido=lucesSettings.potencia_set;
+  pwm_absoluto=lucesSettings.potencia_set;
+  pwm_percent=lucesSettings.percent_set;
   
 
   EEPROM_readAnything(482, tempSettings);  

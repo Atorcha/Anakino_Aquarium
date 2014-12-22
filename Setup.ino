@@ -6,7 +6,7 @@ void setup()
 
   Ethernet.begin(mac, ip);
   servidorArduino.begin();
-  pinMode(PWMLed, OUTPUT);
+  pinMode(ledPinWhite, OUTPUT);
   pinMode(ledPinMoon, OUTPUT); 
   pinMode(calentadorPin, OUTPUT);
   pinMode(alarmPin, OUTPUT);

@@ -5073,12 +5073,12 @@ void processMyTouch()
           led_off_hora = led_off_hora_t;
           amanecer_anochecer = amanecer_anochecer_t;
           pwm_percent = pwm_percent_t;
-          pwm_pre_definido = map(pwm_percent, 0, 100, 0, 255);
+          pwm_absoluto = map(pwm_percent, 0, 100, 0, 255);
           SaveLEDToEEPROM();
         }        
         
         
-        if ((x >= 30) && (x <= 55) && (y >= 45) && (y <= 70))           // Hora encendido mas 
+        if ((x >= 30) && (x <= 55) && (y >= 45) && (y <= 70))           // Hora AMANECER mas 
         {
           waitForIt(30, 45, 55, 70);
           led_on_hora_t += 1;
@@ -5088,18 +5088,18 @@ void processMyTouch()
           }
           fotoperiodo();
         } 
-        else if ((x >= 30) && (x <= 55) && (y >= 105) && (y <= 130))           // Hora encendido menos
+        else if ((x >= 30) && (x <= 55) && (y >= 105) && (y <= 130))           // Hora AMANECER menos
         {
           waitForIt(30, 105, 55, 130);
           led_on_hora_t -= 1;
-          if(led_on_hora_t > 200) // 0 - 1 = 255 pois, byte varia de  0 a 255. 
+          if(led_on_hora_t > 200)  
           {
             led_on_hora_t = 23;
           }
           fotoperiodo();
         } 
 
-        else if ((x >= 100) && (x <= 125) && (y >= 45) && (y <= 70))           // Minuto ligar mais 
+        else if ((x >= 100) && (x <= 125) && (y >= 45) && (y <= 70))           // Minuto AMANECER mais 
         {
           waitForIt(100, 45, 125, 70);
           led_on_minuto_t += 5;
@@ -5109,17 +5109,17 @@ void processMyTouch()
           }
           fotoperiodo();
         } 
-        else if ((x >= 100) && (x <= 125) && (y >= 105) && (y <= 130))           // Minuto ligar menos
+        else if ((x >= 100) && (x <= 125) && (y >= 105) && (y <= 130))           // Minuto AMANECER menos
         {
           waitForIt(100, 105, 125, 130);
           led_on_minuto_t -= 5;
-          if(led_on_minuto_t > 200) // 0 - 1 = 255 pois, byte varia de  0 a 255. 
+          if(led_on_minuto_t > 200) 
           {
-            led_on_minuto_t = 59;
+            led_on_minuto_t = 55;
           }
           fotoperiodo();
         }
-        else if ((x >= 195) && (x <= 220) && (y >= 45) && (y <= 70))           // Hora mas 
+        else if ((x >= 195) && (x <= 220) && (y >= 45) && (y <= 70))           // Hora ANOCHECER mas 
         {
           waitForIt(195, 45, 220, 70);
           led_off_hora_t += 1;
@@ -5129,18 +5129,18 @@ void processMyTouch()
           }
           fotoperiodo();
         } 
-        else if ((x >= 195) && (x <= 220) && (y >= 105) && (y <= 130))           // Hora menos
+        else if ((x >= 195) && (x <= 220) && (y >= 105) && (y <= 130))           // Hora ANOCHECER menos
         {
           waitForIt(195, 105, 220, 130);
           led_off_hora_t -= 1;
-          if(led_off_hora_t > 200) // 0 - 1 = 255 pois, byte varia de  0 a 255. 
+          if(led_off_hora_t > 0) 
           {
             led_off_hora_t = 23;
           }
           fotoperiodo();
         } 
 
-        else if ((x >= 265) && (x <= 290) && (y >= 45) && (y <= 70))           // Minuto mas 
+        else if ((x >= 265) && (x <= 290) && (y >= 45) && (y <= 70))           // Minuto ANOCHECER mas 
         {
           waitForIt(265, 45, 290, 70);
           led_off_minuto_t += 5;
@@ -5150,13 +5150,13 @@ void processMyTouch()
           }
           fotoperiodo();
         } 
-        else if ((x >= 265) && (x <= 290) && (y >= 105) && (y <= 130))           // Minuto menos
+        else if ((x >= 265) && (x <= 290) && (y >= 105) && (y <= 130))           // Minuto ANOCHECER menos
         {
           waitForIt(265, 105, 290, 130);
           led_off_minuto_t -= 5;
           if(led_off_minuto_t > 200) // 0 - 1 = 255 pois, byte varia de  0 a 255. 
           {
-            led_off_minuto_t = 59;
+            led_off_minuto_t = 55;
           }
           fotoperiodo();
         }
@@ -5164,7 +5164,7 @@ void processMyTouch()
         {
           waitForIt(265, 45, 290, 70);
           amanecer_anochecer_t += 5;
-          if(amanecer_anochecer_t > 240)
+          if(amanecer_anochecer_t > 120)
           {
             amanecer_anochecer_t = 5;
           }
@@ -5176,7 +5176,7 @@ void processMyTouch()
           amanecer_anochecer_t -= 5;
           if(amanecer_anochecer_t < 5)
           {
-            amanecer_anochecer_t = 240;
+            amanecer_anochecer_t = 120;
           }
           fotoperiodo();
         }
@@ -5185,15 +5185,16 @@ void processMyTouch()
             {
               pwm_percent_t += 10;
               if(pwm_percent_t > 100){ pwm_percent_t = 0;}
-              if(pwm_percent_t < 0) {pwm_percent_t = 100;}
                
               fotoperiodo(); 
             }
             else if((x >= 185) && (x <= 210) && (y >= 175) && (y <= 200)) // PWM -
             {
               pwm_percent_t -= 10;
-              if(pwm_percent_t > 100){ pwm_percent_t = 0;}
-              if(pwm_percent_t < 0) {pwm_percent_t = 100;}
+              if(pwm_percent_t < 9) 
+              {
+              pwm_percent_t = 100;
+              }
               fotoperiodo();
             }        
       break; 

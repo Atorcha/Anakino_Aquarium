@@ -97,11 +97,10 @@ char buffer[70];
 // Pines 0 y 1 reservados para el puerto serial 0.
 const int alarmPin = 0;          // Pin que acciona la alarma
 // Pines 2, 3, 4, 5, 6     reservado para el  Touch.
-const int fanPin = 7;      // Pin que controla la velocidad de ventilador del disipador // Conexion  nº 3 azul
-const int PWMLed = 8;      // Pin que controla PWM luz dimeable  // Conexion nº 1 amarillo
-//const int Pin = 9;       // Pin libre
-//const int Pin = 11;      // Pin libre
-const int ledPinMoon = 12; // Pin que activa los leds de luz nocturna // Conexion nº 2 Verde
+const int ledPinWhite = 7;// Pin que controla PWM luz dimeable  // CHANNEL 1
+const int ledPinMoon = 8; // Pin que activa los leds de luz nocturna // CHANNEL 2
+const int fanPin = 9;     // Pin que controla la velocidad de ventilador // CHANNEL 3
+
 // const int Pin = 13;   // Pin libre
 // const int pin = 14;   // Pin libre
 // const int pin = 15;   // Pin libre
@@ -218,8 +217,8 @@ byte status_parametros = 0x0; // En esta variable podremos añadir los diferente
 //*********************** Variables de control de temperatura del agua ********************
 //*****************************************************************************************
 float tempC;              // Temperatura de agua
-float setTempC;          // Temperatura deseada
-float offTempC;         // Variacion permitida de temperatura
+float setTempC;           // Temperatura deseada
+float offTempC;           // Variacion permitida de temperatura
 float alarmTempC;         // Variacion para acionar la alarma de temperatura de agua
 int contador_temp = 0;
 float temperatura_agua_temp;       // Temperatura temporal del agua
@@ -230,10 +229,10 @@ int fanSpeed = 0;
 //*****************************************************************************************
 //************************ Variáveis do controle do PH do aquário *************************
 //*****************************************************************************************
-float PHA = 0;               // PH do aquário
-float setPHA = 0;           // PH desejado do aquário
-float offPHA = 0;           // Variaçãoo permitida do PH do aquário
-float alarmPHA = 0;         // Variação para acionar o alarme de ph do aquário
+float PHA = 0;              // PH do acuario
+float setPHA = 0;           // PH deseado de acuario
+float offPHA = 0;           // Variacion permitida de PH de acuario
+float alarmPHA = 0;         // Variacin para accionar la alarma de pH del acuario
 
 //*****************************************************************************************
 //************************ Variable temporal del ph del acuario      *************
@@ -244,10 +243,10 @@ float PHA2beA;
 
 
 //*****************************************************************************************
-//************************ Variables del control de la velocidad del ventilador ***********
+//**** Variables del control de la velocidad del ventilador/ refrigeracion agua ***********
 //*****************************************************************************************
-const int HtempMin = 40;    // Declara la temperatura para iniciar el funcionamiento de la velocidad del ventilador 
-const int HtempMax = 50;    // Declara que el ventilador debe estar a su maxima velocidad cuando el disipado este a  50º
+const int HtempMin = (setTempC +5);    // Declara la temperatura para iniciar el funcionamiento de la velocidad del ventilador para refrigerar el agua sera 5º mas que la deseada 
+const int HtempMax = (setTempC +8);    // Declara que el ventilador debe estar a su maxima velocidad cuando el agua se encuentre 8 grados por encima de la temperatura deseada
 
 
 //*****************************************************************************************
@@ -256,10 +255,12 @@ const int HtempMax = 50;    // Declara que el ventilador debe estar a su maxima 
 float tempH = 0;            // Temperatura del disipador
 float tempHB = 0;
 
+/*
 byte tempHMAX          = 55;// Temperatura máxima del disipador en la cual se reducirá la potencia de la iluminación  
 byte tempHMAZX_t;            // Valor temporal de la temperatura maxima del disipador
 byte tempHRecuperacion = 37; // Temperatura de recuperación de potencia completa de la iluminación                    
 byte tempHRecuperacion_t;    // Valor temporal de la recuperacion de potencia
+*/
 
 //*****************************************************************************************
 //************************ Variable temporal del control de la temperatura del agua    ****
@@ -286,30 +287,24 @@ byte cor_selecionada = 0x0;
 int setor_selecionado = 0;
 boolean mensagem = true;
 float suavizar = 0.0; // LEDS inicia suavemente y llega al valor especificado en 50 segundos.
-byte predefinido = 0;
 
-int led_estado = 0;       // Variable que indicara el estado de la iluminacion MAN ON / MAN OFF / Automatico
+int led_estado = 0;    // Variable que indicara el estado de la iluminacion MAN ON / MAN OFF / Automatico
 int led_estado_temp;  // Variable temporal del estado de la luz
-int potenciaIluminacionNormal   = 100; // Porcentaje de potencia de iluminacion normal de los leds                               
-int potenciaIluminacionReducida =  25; // Porcentaje de potencia de iluminacion de los leds cuando el disipador se sobrecalienta 
 
-int potenciaIluminacion = potenciaIluminacionNormal; // Porcentaje de potencia de iluminacion ACTUAL de los leds
+byte led_on_hora;       // Horario para encender leds.
+byte led_on_minuto;
+byte led_off_hora;      // Horario para apagar leds.
+byte led_off_minuto;   
+byte amanecer_anochecer;  //Tiempo en amanecer o anochecer
+byte pwm_percent;      //  Tanto por ciento fijado desde la pantalla de config fotoperiodo
+byte pwm_absoluto;     // potencia de leds
 
-
-byte pwm_pre_definido = 255; // potencia de leds
-byte pwm_percent = 100;      //  Tanto por ciento fijado desde la pantalla de config fotoperiodo
-byte led_on_hora = 13;       // Horario para encender leds.
-byte led_on_minuto = 00;
-byte led_off_hora = 21;     // Horario para apagar leds.
-byte led_off_minuto = 0;   
-byte amanecer_anochecer = 30;   //Tiempo en amanecer o anochecer
-
-byte pwm_percent_t;
-byte led_on_minuto_t;      // Horarios temporales
-byte led_on_hora_t;
-byte led_off_minuto_t;
+byte led_on_hora_t;       // Horarios temporales
+byte led_on_minuto_t;      
 byte led_off_hora_t;
+byte led_off_minuto_t;
 byte amanecer_anochecer_t;
+byte pwm_percent_t;
 
 //*************************************************************************************************
 //***************DISEÑO BARRAS LUZ PANTALLA ***********************************************************
@@ -416,7 +411,7 @@ XivelyDatastream(data17, strlen(data17), DATASTREAM_INT)
 XivelyFeed feed(157388679, datastreams, 12); // numero de datastreams
 EthernetClient client;
 XivelyClient xivelyclient(client);
-char xivelyKey[]= "XXXXXXXXXXXXX"; // replace your xively api key here
+char xivelyKey[]= "xxxxxxx"; // replace your xively api key here
 // assign a MAC address for the ethernet controller.
 // Newer Ethernet shields have a MAC address printed on a sticker on the shield
 // fill in your address here:
@@ -429,7 +424,7 @@ int xivelyReturn = 0;    // Result Return code from data send
 //************************** tweeter ******************************************
 //*****************************************************************************************
 
-Twitter twitter("XXXXXXXXXXXXXX"); // Your Token to Tweet (get it from http://arduino-tweet.appspot.com/)
+Twitter twitter("xxxxxxxxx"); // Your Token to Tweet (get it from http://arduino-tweet.appspot.com/)
 
 byte msg_enviado = 0x0;
 // byte 1 = sistema ok
