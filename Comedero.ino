@@ -7,8 +7,8 @@ void feedingTimeOutput()
 }
 void activacomedero()
 {
-      SetRele(comederopin, HIGH);  // Activa rele comedero
-      delay(6000);
-      t = rtc.getTime();      
-      SetRele(comederopin, LOW); // Desactiva rele comedero
+   Serial.println("comdero activado");
+  myStepper.step(stepsPerRevolution);
+  delay(6000);       // Se espera 6 segundos
+  t = rtc.getTime(); // Recupera la hora
 }      

@@ -662,7 +662,7 @@ void processMyTouch()
          myGLCD.drawRoundRect(85, 94, 235, 114); 
          setFont(SMALL, 0, 0, 0, 0, 255, 0);
          myGLCD.print("Now Feeding", 118, 98); 
-         SetRele(comederopin, HIGH);                   // Se activa rele comedero
+         activacomedero();                   // Se activa el comedero
          delay(5000);
          myGLCD.setColor(153, 0, 102);
          myGLCD.fillRoundRect(85, 94, 235, 114);
@@ -670,7 +670,7 @@ void processMyTouch()
          myGLCD.drawRoundRect(85, 94, 235, 114); 
          setFont(SMALL, 255, 255, 255, 153, 0, 102);
          myGLCD.print("Feed Fish Now!", 106, 98);  
-         SetRele(comederopin, LOW);
+         activacomedero();
         } 
     break;
 
@@ -5092,7 +5092,7 @@ void processMyTouch()
         {
           waitForIt(30, 105, 55, 130);
           led_on_hora_t -= 1;
-          if(led_on_hora_t > 200)  
+          if(led_on_hora_t < 0)  
           {
             led_on_hora_t = 23;
           }
@@ -5113,7 +5113,7 @@ void processMyTouch()
         {
           waitForIt(100, 105, 125, 130);
           led_on_minuto_t -= 5;
-          if(led_on_minuto_t > 200) 
+          if(led_on_minuto_t < 0) 
           {
             led_on_minuto_t = 55;
           }
@@ -5133,7 +5133,7 @@ void processMyTouch()
         {
           waitForIt(195, 105, 220, 130);
           led_off_hora_t -= 1;
-          if(led_off_hora_t > 0) 
+          if(led_off_hora_t < 0) 
           {
             led_off_hora_t = 23;
           }
@@ -5154,7 +5154,7 @@ void processMyTouch()
         {
           waitForIt(265, 105, 290, 130);
           led_off_minuto_t -= 5;
-          if(led_off_minuto_t > 200) // 0 - 1 = 255 pois, byte varia de  0 a 255. 
+          if(led_off_minuto_t < 0) // 0 - 1 = 255 pois, byte varia de  0 a 255. 
           {
             led_off_minuto_t = 55;
           }

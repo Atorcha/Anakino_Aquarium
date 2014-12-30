@@ -1,4 +1,5 @@
 
+
 //
 //******************** Anakino_Aquarium es un codigo para arduino basado en Ferduino para adaptarlo a agua dulce y con añadidos.
 //
@@ -68,6 +69,8 @@
 #include <HttpClient.h>
 #include <Xively.h>
 #include <Twitter.h>
+#include <Stepper.h>
+
 //#include <PCF8575.h>
 //#include <JeeLib.h>
 
@@ -101,17 +104,16 @@ const int ledPinWhite = 7;// Pin que controla PWM luz dimeable  // CHANNEL 1
 const int ledPinMoon = 8; // Pin que activa los leds de luz nocturna // CHANNEL 2
 const int fanPin = 9;     // Pin que controla la velocidad de ventilador // CHANNEL 3
 
-// const int Pin = 13;   // Pin libre
-// const int pin = 14;   // Pin libre
-// const int pin = 15;   // Pin libre
-// const int pin = 16;   // Pin libre
-// const int pin = 17;   // Pin libre
+// const int Pin = 10;   // Resrvado para ethernet shield
+// const int pin = 14;   // Pin motor comedero
+// const int pin = 15;   // Pin motor comedero
+// const int pin = 16;   // Pin motor comedero
+// const int pin = 17;   // Pin motor comedero
 // const int pin = 18;   // Pin libre
 // const int pin = 19;   // Pin libre
-// Pines 20 y 21 reservados para comunicacion RTC
-// Pines 22 al 41 reservados para o LCD.
-
-// Pin 42 reservado para los sensores de temperatura
+//          Pines 20 y 21 reservados para comunicacion RTC
+//          Pines 22 al 41 reservados para o LCD.
+//          Pin 42      reservado para los sensores de temperatura
 
 const int calentadorPin  = 43;  // Rele 1 => Enchufe 1  ****** Pin que activa el calentador
 //********************* Temporizadores **********************
@@ -119,14 +121,16 @@ const int temporizador1 = 44;   // Rele x => Enchufe 2  ****** Pin de activacion
 const int temporizador2 = 45;   // Rele x => Enchufe 3  ****** Pin de activacion de TEMPORIZADOR 2 
 const int temporizador3 = 46;   // Rele x => Enchufe 4  ****** Pin de activacion de TEMPORIZADOR 3 
 const int temporizador4 = 47;   // Rele x => Enchufe XX ****** Pin de activacion de TEMPORIZADOR 4 
-const int temporizador5 = 48;   // Rele x => Enchufe XX ****** Pin de activacion de TEMPORIZADOR 5  
-const int comederopin = 49;     // Rele 7 =>            ****** Pin de comedero
+const int temporizador5 = 48;   // Rele x => Enchufe XX ****** Pin de activacion de TEMPORIZADOR 5 
+// ******************************************************************************************
+
+// const int comederopin = 49;   // Pin Libre
+// Pines             50, 51 e 52 // Reservados para comunicacion SPI
 
 // ******************************************************************************************
 
-// Pines 50, 51 e 52 reservados para comunicacion SPI
 
-const int dosadora1 = A9;     // Bomba dosadora 1
+const int dosadora1 = 11;     // Bomba dosadora 1
 const int dosadora2 = A10;     // Bomba dosadora 2
 const int dosadora3 = A11;     // Bomba dosadora 3
 const int dosadora4 = A12;     // Bomba dosadora 4
@@ -173,6 +177,10 @@ int dispScreen = 0;
 //*****************************************************************************************************
 //***************************    COMEDERO   ***********************************************************
 //*****************************************************************************************************
+const int stepsPerRevolution = 200;  // change this to fit the number of steps per revolution   for your motor
+
+Stepper myStepper(stepsPerRevolution, 14,15,16,17); // initialize the stepper library on pins 8 through 11
+
 int comedero = 0;
 int comedero1 = 0;       //Valor a cero comedero desactivado valor a 1 comedero activado
 int comedero2 = 0;       //Valor a cero comedero desactivado valor a 1 comedero activado

@@ -24,7 +24,8 @@ void setup()
   pinMode (temporizador3, OUTPUT);
   pinMode (temporizador4, OUTPUT);
   pinMode (temporizador5, OUTPUT);
-  pinMode (comederopin, OUTPUT);  
+   
+  myStepper.setSpeed(60); // set the speed at 60 rpm
   
   // Con esto apagamos todos los reles.  
     byte n;
