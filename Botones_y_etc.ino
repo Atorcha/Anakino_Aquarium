@@ -38,7 +38,7 @@ const int leST[]= {100, 203, 170, 235};       //LED values change
 
 const int tpaA[]= {170, 70, 310, 110};         //TPA automÃ¡tica
 const int dosA[]= {170, 120, 310, 160};        //Bomba dosadora
-const int wavM[]= {170, 170, 310, 210};        // Wavemaker
+const int relL[]= {170, 170, 310, 210};        // Wavemaker
 const int volT[]= {325,200,393,238};         //voltar
 const int testT[] =  {40, 34, 280, 74};      //Testar todos os leds
 const int testI[] =  {40, 84, 280, 124};    //Teste individual dos leds

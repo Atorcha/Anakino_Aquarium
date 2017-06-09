@@ -43,12 +43,12 @@ void processMyTouch()
           clearScreen();
           config_leds();
         }  
-        if ((y>=temC[1]) && (y<=temC[3]))               //control de temperatura agua o tapa
+        if ((y>=temC[1]) && (y<=temC[3]))               //control de temperatura agua 
         {
         waitForIt(temC[0], temC[1], temC[2], temC[3]);
-        dispScreen=3;
+        dispScreen=4;
         clearScreen();
-        seleccionartemperatura();        
+         tempScreen(true);         
         }
         if ((y>=graF[1]) && (y<=graF[3]))           // seleciona funcion PH Acuario
         {
@@ -81,7 +81,17 @@ void processMyTouch()
           dispScreen=19;
           clearScreen();
           comederoScreen();
-         } 
+         }
+        if  ((y>=relL[1]) && (y<=relL[3]))             //selecciona rellenado agua
+         {
+          waitForIt(relL[0], relL[1], relL[2], relL[3]);
+          dispScreen=6;
+          clearScreen();
+          rellenador();
+         }         
+        
+        
+         
       }
       if ((y>=menU[1]) && (y<=menU[3]) && (x>=menU[0]) && (x<=menU[2]))
       {
@@ -312,7 +322,7 @@ void processMyTouch()
       }     
       break;
       
-      case 3:           //---------------------------------------pantalla SELECCION de temperaturas de acuario y pantalla----------------------------------PANTALLA = 3
+ /*     case 3:           //---------------------------------------pantalla SELECCION de temperaturas de acuario y pantalla----------------------------------PANTALLA = 3
       if ((x>=tanD[0]) && (x<=tanD[2]))               //first column
       {
         if ((y>=tanD[1]) && (y<=tanD[3]))             //presiona agua
@@ -340,7 +350,7 @@ void processMyTouch()
       }    
       
       break;
-
+*/
     case 4:             //---------------------------------------Tela controle de temperatura----------------------------------PANTALLA = 4
       if ((x>=prOK[0]) && (x<=prOK[2]) && (y>=prOK[1]) && (y<=prOK[3]))       //Funcao salvar
       {
@@ -438,17 +448,16 @@ void processMyTouch()
     
     break;    
     
-    case 16:             //---------------------------------------Pantalla en blanco---------------------------------
+    case 6:             //---------------------------------------Pantalla en blanco- PARA MODIFICAR EL RELLENADOR--------------------------------
       if ((x>=menU[0]) && (x<=menU[2]) && (y>=menU[1]) && (y<=menU[3]))           /// vuelta al menu
       {
         waitForIt(menU[0], menU[1], menU[2], menU[3]);
         dispScreen=1;
         clearScreen();
         menuScreen(); 
-      } 
-      
-      
+      }     
       break;
+      
     case 8: //--------------------------------------------- Escolher dosadora -----------------------------------
       if ((x>=manU[0]) && (x<=manU[2]) && (y>=manU[1]) && (y<=manU[3]))
       {
@@ -605,6 +614,16 @@ void processMyTouch()
         } 
 
       }
+      break;
+      
+    case 16:             //---------------------------------------Pantalla en blanco---------------------------------
+      if ((x>=menU[0]) && (x<=menU[2]) && (y>=menU[1]) && (y<=menU[3]))           /// vuelta al menu
+      {
+        waitForIt(menU[0], menU[1], menU[2], menU[3]);
+        dispScreen=1;
+        clearScreen();
+        menuScreen(); 
+      }       
       break;
       
 

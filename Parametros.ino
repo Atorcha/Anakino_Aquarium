@@ -57,28 +57,46 @@ void checkTempC()
 
 
   // **************** Gestion del ventilador para refrigeracion del agua  *******
-     if (tempH > HtempMin)
-           {     
-            int tempval = int(tempH * 10);     
-            fanSpeed = map(tempval, (HtempMin * 10), (HtempMax * 10), 0, 255);       //---------Control de velocidad de los ventiladores del disipador
-            if (fanSpeed <= 0)                      //30°c = 0 volts -- 40°c = 5 volts
-            {
-             (fanSpeed = 0);
-             (bitWrite(status_parametros,0,0)); //ventilador apagado
-            }
-         
-       else bitWrite(status_parametros,0,1);   //ventilador activado
-                            
-      if (fanSpeed > 255)    fanSpeed = 255;
+  
+      const int HtempMin = setTempC +2;    // Declara la temperatura para iniciar el funcionamiento de la velocidad del ventilador para refrigerar el agua sera 5º mas que la deseada 
+      const int HtempMax = setTempC +4;    // Declara que el ventilador debe estar a su maxima velocidad cuando el agua se encuentre 8 grados por encima de la temperatura deseada
+              
+      int tempval = int(tempC * 10);     
+      fanSpeed = map(tempval, (HtempMin * 10), (HtempMax * 10), 0, 255);       //---------Control de velocidad de los ventiladores del disipador
+
+      
+      if (fanSpeed < 0)                      
+      {
+        fanSpeed = 0;
+       }
+       
+      if (fanSpeed > 255)    
+      
+      {
+        fanSpeed = 255;
+      }
+      
       analogWrite(fanPin, fanSpeed);
-          }
-          
-     if (tempH <= HtempMin )
+      
+      Serial.println("");
+      Serial.print ("HtempMin: ");
+      Serial.print (HtempMin);
+      Serial.println("");       
+      Serial.print ("fanSpeed: ");
+      Serial.print (fanSpeed);
+      Serial.println("");       
+      Serial.print ("tempval: ");
+      Serial.print (tempval);      
+      Serial.println(""); 
+ 
+      if (tempH < HtempMin )
         {
-        (fanSpeed = 0);
         (bitWrite(status_parametros,0,0)); //ventilador apagado
-         analogWrite(fanPin, fanSpeed);
-        }     
+        }
+   else
+      {
+      bitWrite(status_parametros,0,1);   //ventilador activado
+      }  
 }
 
 void check_PH_aquario()

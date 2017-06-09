@@ -102,15 +102,15 @@ const int alarmPin = 0;          // Pin que acciona la alarma
 // Pines 2, 3, 4, 5, 6     reservado para el  Touch.
 const int ledPinWhite = 7;// Pin que controla PWM luz dimeable  // CHANNEL 1
 const int ledPinMoon = 8; // Pin que activa los leds de luz nocturna // CHANNEL 2
-const int fanPin = 9;     // Pin que controla la velocidad de ventilador // CHANNEL 3
+const int fanPin = 9;     // Pin que controla la velocidad de ventilador // CHANNEL 3 Para aprovechar la salida de 24 de las luces ponemos los ventiladores en serie. asi si son de 12v la tension de 24 se divide entre los dos
 
 // const int Pin = 10;   // Resrvado para ethernet shield
 // const int pin = 14;   // Pin motor comedero
 // const int pin = 15;   // Pin motor comedero
 // const int pin = 16;   // Pin motor comedero
 // const int pin = 17;   // Pin motor comedero
-// const int pin = 18;   // Pin libre
-// const int pin = 19;   // Pin libre
+// const int pin = 18;   // Pin de sensor de nivel. Leemos la lectura para saber si esta a nivel o no
+// const int pin = 19;   // Pin accionara la bomba de llenado
 //          Pines 20 y 21 reservados para comunicacion RTC
 //          Pines 22 al 41 reservados para o LCD.
 //          Pin 42      reservado para los sensores de temperatura
@@ -253,8 +253,6 @@ float PHA2beA;
 //*****************************************************************************************
 //**** Variables del control de la velocidad del ventilador/ refrigeracion agua ***********
 //*****************************************************************************************
-const int HtempMin = (setTempC +5);    // Declara la temperatura para iniciar el funcionamiento de la velocidad del ventilador para refrigerar el agua sera 5º mas que la deseada 
-const int HtempMax = (setTempC +8);    // Declara que el ventilador debe estar a su maxima velocidad cuando el agua se encuentre 8 grados por encima de la temperatura deseada
 
 
 //*****************************************************************************************
@@ -419,8 +417,7 @@ XivelyDatastream(data17, strlen(data17), DATASTREAM_INT)
 XivelyFeed feed(157388679, datastreams, 12); // numero de datastreams
 EthernetClient client;
 XivelyClient xivelyclient(client);
-char xivelyKey[]= "xxxxxxx"; // replace your xively api key here
-// assign a MAC address for the ethernet controller.
+char xivelyKey[]= "IztIl4jRHL0vLd6fFkwnXwLZ7YbuAi6jmr8kAXPO5RxrDkQQ"; // replace your xively api key here// assign a MAC address for the ethernet controller.
 // Newer Ethernet shields have a MAC address printed on a sticker on the shield
 // fill in your address here:
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
@@ -432,7 +429,7 @@ int xivelyReturn = 0;    // Result Return code from data send
 //************************** tweeter ******************************************
 //*****************************************************************************************
 
-Twitter twitter("xxxxxxxxx"); // Your Token to Tweet (get it from http://arduino-tweet.appspot.com/)
+Twitter twitter("1692134557-fzSysgvsLE9DMKAQEFt0aashH7QGFAqZMe8VrY1"); // Your Token to Tweet (get it from http://arduino-tweet.appspot.com/)
 
 byte msg_enviado = 0x0;
 // byte 1 = sistema ok
@@ -506,6 +503,11 @@ int temporizador_2_ativado_temp2;
 int temporizador_3_ativado_temp2;
 int temporizador_4_ativado_temp2;
 int temporizador_5_ativado_temp2;
+
+//*****************************************************************************************
+//********************************* Estado del rellenado  *********************************
+//*****************************************************************************************
+boolean rellenador_activo =true;
 
 
 //*****************************************************************************************

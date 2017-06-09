@@ -33,16 +33,22 @@ void netio()
                                               else { clienteApp.println("OFF");  } }
                                               
            if (strstr(comando, "muv")) { if (temporizador_1_ativado == 1)  { clienteApp.println("AUTO"); }           // Modo Lampara UV Auto
-                                               else { clienteApp.println("MANUAL"); }}                               // Modo Lampara UV MAN
+                                               else { clienteApp.println("MANUAL"); }}                               
                              
-            if (strstr(comando, "uvest")) { if (bitRead(temporizador_status,1) == true) { clienteApp.println("ON"); } 
+            if (strstr(comando, "uvest")) { if (bitRead(temporizador_status,1) == true) { clienteApp.println("ON"); } // Modo Lampara UV ON/OFF
                                               else { clienteApp.println("OFF");  } } 
                                 
             if (strstr(comando, "maire")) { if (temporizador_2_ativado == 1)  { clienteApp.println("AUTO"); }         // Modo Aireador Auto
-                                               else { clienteApp.println("MANUAL"); }}                                // Modo aireador MAN
+                                               else { clienteApp.println("MANUAL"); }}                                
                              
-            if (strstr(comando, "aireest")) { if (bitRead(temporizador_status,2) == true) { clienteApp.println("ON"); } 
-                                              else { clienteApp.println("OFF");  } }   
+            if (strstr(comando, "aireest")) { if (bitRead(temporizador_status,2) == true) { clienteApp.println("ON"); } // Modo aireador ON/OFF
+                                              else { clienteApp.println("OFF");  }} 
+                                              
+            if (strstr(comando, "co")) { if (temporizador_3_ativado == 1)  { clienteApp.println("AUTO"); }         // Modo co2 Auto
+                                               else { clienteApp.println("MANUAL"); }}
+                                               
+           // if (strstr(comando, "coest")) { if (bitRead(temporizador_status,3) == true) { clienteApp.println("ON"); }   //Modo co2 ON/OFF
+           //                                    else { clienteApp.println("OFF");  }} 
              
             if (strstr(comando, "estado")) { if (bitRead(status_parametros,2) == false)  { clienteApp.println("SISTEMA FUNCIONANDO"); } //Modo Luz AUTO
                                                else { clienteApp.println("ALARMA TEMPERATURA"); }}                                   

@@ -18,7 +18,7 @@ void check_alarmas()        // Imprime el texto de las alarmas
         if (bitRead(msg_enviado,0) == false)
         {
           strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[186])));
-          tweet( strcat(buffer,rtc.getTimeStr(FORMAT_LONG)));
+          tweet( strcat(buffer,rtc.getTimeStr(FORMAT_LONG) ));
           bitWrite(msg_enviado,0,1); //Marcamos que el msg de sist ok se ha enviado
           bitWrite(msg_enviado,1,0); //y que ha sido el ultimo en enviarse
           bitWrite(msg_enviado,2,0); //asi lo dejamos preparado para enviar las alarmas

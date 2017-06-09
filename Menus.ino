@@ -26,10 +26,11 @@ void menuScreen()
   strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[9])));
   printButton(buffer, dosA[0], dosA[1], dosA[2], dosA[3]); // "DOSADORAS"  
 
- // strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[8])));
- // printButton(buffer, tpaA[0], tpaA[1], tpaA[2], tpaA[3]); // "TPA AUTOMATICA"
-
- // printButton(buffer, wavM[0], wavM[1], wavM[2], wavM[3]); //  "COMEDERO" 
+  //strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[8])));
+ // printButton(buffer, tpaA[0], tpaA[1], tpaA[2], tpaA[3]); // "rellenador"
+ 
+  strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[8])));
+  printButton(buffer, relL[0], relL[1], relL[2], relL[3]); //  "Rellenador" 
 
   strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[11])));
   printButton(buffer, iniC[0], iniC[1], iniC[2], iniC[3]); // "INICIO"
@@ -204,6 +205,7 @@ void tempScreen(boolean refreshAll=false)
   myGLCD.printNumF(temp2beO, 1, 140, 90);
   myGLCD.printNumF(temp2beA, 1, 140, 140);
 }
+/*
 //-------------------------------- Configurar temperatura Maxima del agua ----------------------------------- PANTALLA =5
 void temperaturatapa()
 {
@@ -220,8 +222,46 @@ void temperaturatapa()
     myGLCD.print(buffer, 90, 70); // "TEMPERATURA MAXIMA DEL DISIPADOR"
   
 }
+*/
+//-------------------------------- Configurar rellenador agua automatico ----------------------------------- PANTALLA =6
 
-//---------------------------------------------PH de aquario--------------------------------PANTALLA = 6 ----------
+void rellenador()
+{
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[24])));
+    printHeader(buffer); //tabela_textos[24] "CONFIGURACION RELLENADOR"
+    
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[11])));
+    printButton(buffer, iniC[0], iniC[1], iniC[2], iniC[3]);  // "INICIO"
+
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[66])));
+    printButton(buffer, menU[0], menU[1], menU[2], menU[3]); // "MENU"
+
+    myGLCD.setColor(255, 255, 255);
+    myGLCD.drawRect(20, 50, 310, 125);
+
+    setFont(SMALL, 255, 255, 255, 0, 0, 0);
+
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[100])));
+    myGLCD.print(buffer, 30, 55); // "aviso rellenador 1"
+
+    strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[101])));
+    myGLCD.print(buffer, 30, 70); // "aviso rellenador 2"  
+  
+  myGLCD.setColor(0, 0, 0);
+  myGLCD.fillRect(117, 135, 203, 160);
+
+  if(rellenador_activo == true)
+  {
+    setFont(LARGE, 255, 255, 255, 0, 0, 0);
+    myGLCD.printNumF(dose_dosadora_1_manual,1, 130, 140);
+    setFont(SMALL, 255, 255, 255, 0, 0, 0);
+
+  }
+} 
+ 
+
+
+//---------------------------------------------PH de aquario--------------------------------PANTALLA = 18 ----------
 
 void config_phA_Screen(boolean refreshAll=false)
 {
@@ -3535,43 +3575,43 @@ void TimerScreen()
 
   if (temporizador_1_ativado == 1) 
   {
-    printButton("T 1",7, 22, 56, 50);           // Timer 1 AUTO > Azul
+    printButton("AIR",7, 22, 56, 50);           // Timer 1 AUTO > Azul
   }
   else if(temporizador_1_ativado == 2) 
   {
-    printButton_verde("T 1",7, 22, 56, 50);     // Timer 1 ON  > Verde
+    printButton_verde("AIR",7, 22, 56, 50);     // Timer 1 ON  > Verde
   } 
   else
   {
-    printButton_vermelho("T 1",7, 22, 56, 50);  // Timer 1 OFF > Rojo
+    printButton_vermelho("AIR",7, 22, 56, 50);  // Timer 1 OFF > Rojo
   } 
   //***************** TIMER 2  ******************
 
   if (temporizador_2_ativado == 1) 
   {
-    printButton("T 2",71, 22, 120, 50);           // Timer 2 AUTO > Azul 
+    printButton("LUV",71, 22, 120, 50);           // Timer 2 AUTO > Azul 
   }
   else if(temporizador_2_ativado == 2) 
   {
-    printButton_verde("T 2",71, 22, 120, 50);     // Timer 2 ON  > Verde
+    printButton_verde("LUV",71, 22, 120, 50);     // Timer 2 ON  > Verde
   } 
   else
   {
-    printButton_vermelho("T 2",71, 22, 120, 50);   // Timer 2 OFF > Rojo
+    printButton_vermelho("LUV",71, 22, 120, 50);   // Timer 2 OFF > Rojo
   } 
   //***************** TIMER 3  ******************
   if (temporizador_3_ativado == 1) 
   {
-    printButton("T 3",135, 22, 184, 50);            // Timer 3 AUTO > Azul
+    printButton("CO2",135, 22, 184, 50);            // Timer 3 AUTO > Azul
   }
   else if(temporizador_3_ativado == 2) 
 
   {
-    printButton_verde("T 3",135, 22, 184, 50);      // Timer 3 ON  > Verde
+    printButton_verde("CO2",135, 22, 184, 50);      // Timer 3 ON  > Verde
   }
   else
   {
-    printButton_vermelho("T 3",135, 22, 184, 50);   // Timer 3 OFF > Rojo
+    printButton_vermelho("CO2",135, 22, 184, 50);   // Timer 3 OFF > Rojo
   }
   //***************** TIMER 4  ******************
 
@@ -4425,5 +4465,14 @@ void fotoperiodo(boolean refreshAll = false)
     }     
  
 }
+
+//------------------------------- Pantalla de salvapantalla ------------------------------- PANTALLA =45
+void salvapantalla()
+ {
+   
+     myGLCD.printNumF(tempC, 2, 216, 14);            // Temperatura agua
+ }
+ 
+
 
 
