@@ -12,7 +12,7 @@ void check_alarmas()        // Imprime el texto de las alarmas
           myGLCD.print("SISTEMA", 50, 155);
           myGLCD.print("FUNCIONANDO", 15, 180);
  
-        if (Ethernet_Shield = true) 
+        if (cuenta_twitter = true) 
         { 
           
         if (bitRead(msg_enviado,0) == false)
@@ -35,7 +35,7 @@ void check_alarmas()        // Imprime el texto de las alarmas
        myGLCD.print("TEMPERATURA", 12, 170);
        myGLCD.print("ACUARIO", 35, 185);
        
-       if (Ethernet_Shield = true) 
+       if (cuenta_twitter = true) 
        {   
        
        if (bitRead(msg_enviado,2) == false)

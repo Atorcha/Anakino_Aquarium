@@ -455,7 +455,21 @@ void processMyTouch()
         dispScreen=1;
         clearScreen();
         menuScreen(); 
-      }     
+      }
+         if ((x>=domI[0]-20) && (x<=domI[2]+20) && (y>=domI[1]) && (y<=domI[3]))           // Activar / desactivar rellenador
+        {
+          waitForIt(domI[0]-20, domI[1], domI[2]+20, domI[3]);
+          if(rellenador_activo == true)
+          {
+            rellenador_activo = false;
+          }
+          else if(rellenador_activo == false)
+          {
+            rellenador_activo = true;
+          }
+          
+          rellenador();
+        }      
       break;
       
     case 8: //--------------------------------------------- Escolher dosadora -----------------------------------

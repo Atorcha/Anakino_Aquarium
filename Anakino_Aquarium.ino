@@ -1,5 +1,5 @@
 
-
+/*
 //
 //******************** Anakino_Aquarium es un codigo para arduino basado en Ferduino para adaptarlo a agua dulce y con añadidos.
 //
@@ -24,6 +24,8 @@
 //                 - Pin 7 => cable XXXX
 //                 - Pin 8 => Cable amarillo => Amarillo
 //                 - VCC   => Cable blanco   => Rojo 5+
+//*************************************************************************************************
+
 
 
 // // Programa compatible con arduino 1.0.4
@@ -50,7 +52,7 @@
 // mas sem qualquer garantia; sem mesmo a garantia implícita de
 // comercialização ou propósito particular. Consulte o
 // GNU General Public License para mais detalhes.
-
+*/
 //*************************************************************************************************
 //*************** Biliotecas utilizadas ***********************************************************
 //*************************************************************************************************
@@ -103,23 +105,25 @@ const int alarmPin = 0;          // Pin que acciona la alarma
 const int ledPinWhite = 7;// Pin que controla PWM luz dimeable  // CHANNEL 1
 const int ledPinMoon = 8; // Pin que activa los leds de luz nocturna // CHANNEL 2
 const int fanPin = 9;     // Pin que controla la velocidad de ventilador // CHANNEL 3 Para aprovechar la salida de 24 de las luces ponemos los ventiladores en serie. asi si son de 12v la tension de 24 se divide entre los dos
-
 // const int Pin = 10;   // Resrvado para ethernet shield
+// const int Pin = 11;   // Bomba dosadora 1
+ const int nivel_acu = 12;   // Sensor nivel agua acuario
+ const int nivel_dep = 13;   // Sensor nivel agua deposito
 // const int pin = 14;   // Pin motor comedero
 // const int pin = 15;   // Pin motor comedero
 // const int pin = 16;   // Pin motor comedero
 // const int pin = 17;   // Pin motor comedero
 // const int pin = 18;   // Pin de sensor de nivel. Leemos la lectura para saber si esta a nivel o no
-// const int pin = 19;   // Pin accionara la bomba de llenado
+ const int bomba = 19;   // Pin accionara la bomba de llenado
 //          Pines 20 y 21 reservados para comunicacion RTC
 //          Pines 22 al 41 reservados para o LCD.
 //          Pin 42      reservado para los sensores de temperatura
 
 const int calentadorPin  = 43;  // Rele 1 => Enchufe 1  ****** Pin que activa el calentador
 //********************* Temporizadores **********************
-const int temporizador1 = 44;   // Rele x => Enchufe 2  ****** Pin de activacion de TEMPORIZADOR 1   
-const int temporizador2 = 45;   // Rele x => Enchufe 3  ****** Pin de activacion de TEMPORIZADOR 2 
-const int temporizador3 = 46;   // Rele x => Enchufe 4  ****** Pin de activacion de TEMPORIZADOR 3 
+const int temporizador1 = 44;   // Rele x => Enchufe 2  ****** Pin de activacion de TEMPORIZADOR 1 /aireador   
+const int temporizador2 = 45;   // Rele x => Enchufe 3  ****** Pin de activacion de TEMPORIZADOR 2 /Lampara uv
+const int temporizador3 = 46;   // Rele x => Enchufe 4  ****** Pin de activacion de TEMPORIZADOR 3 / CO2
 const int temporizador4 = 47;   // Rele x => Enchufe XX ****** Pin de activacion de TEMPORIZADOR 4 
 const int temporizador5 = 48;   // Rele x => Enchufe XX ****** Pin de activacion de TEMPORIZADOR 5 
 // ******************************************************************************************
@@ -140,8 +144,6 @@ const int dosadora6 = A14;     // Bomba dosadora 6
 
 // Pin 53 reservado para "select slave de ethernet shield.
 // Pin A15 reservado para SS do RFM12B
-
-
 
 //*******************************************************************************************************
 //********************** Funciones del RTC ********************************************************************
@@ -249,12 +251,6 @@ float PHA2beS;
 float PHA2beO;
 float PHA2beA;
 
-
-//*****************************************************************************************
-//**** Variables del control de la velocidad del ventilador/ refrigeracion agua ***********
-//*****************************************************************************************
-
-
 //*****************************************************************************************
 //************************ Variable de control de la temperatura del disipador **************
 //*****************************************************************************************
@@ -285,7 +281,6 @@ int wled_out;
 int wled_out_temp;
 int moonled_out;
 int y_tocado;
-boolean teste_em_andamento = false;
 int w_out, moon_out;
 byte cor_selecionada = 0x0;
 // bit 1 = led blanco
@@ -327,12 +322,6 @@ int MinI, tMinI;  // Potencia  mínima en Luna nueva.
 float lunarCycle; //get a value for the lunar cycle
 
 
-
-//*****************************************************************************************
-//*********************** Variables de control de níveles **********************************
-//*****************************************************************************************
-boolean nivel_status = 0;             // indica nivel bajo en uno de los acuarios
-
 //****************************************************************************************
 //*********************** Variables de funcion de control de la SD      *****
 //****************************************************************************************
@@ -348,20 +337,21 @@ char time3;
 char time4;
 char time5;
 
-//*****************************************************************************************
-//************************ Variável de controle da reposição de água doce *****************
-//*****************************************************************************************
-boolean ato = 0;                      // indica reposição activada / desactivada
 
 //*****************************************************************************************
-//************************ Variable del envio de datos a xively ******************
+//********************************* Estado del rellenado  *********************************
+//*****************************************************************************************
+boolean rellenador_activo =false;
+
+//*****************************************************************************************
+//************************ Configuracion de xively ******************
 //*****************************************************************************************
 long previous_Millis = 0; // Variável que controla o tempo para envio dos dados
 
 //*****************************************************************************************
 // *********************** NETIO
 //*****************************************************************************************
-EthernetServer servidorArduino(54322);
+EthernetServer server(54322);
 #define BUFFER 10
 
 
@@ -389,7 +379,6 @@ char data16[] = "16";
 char data17[] = "17";
 */
 
-
 XivelyDatastream datastreams[] = 
 
 {
@@ -413,11 +402,11 @@ XivelyDatastream(data16, strlen(data16), DATASTREAM_INT),
 XivelyDatastream(data17, strlen(data17), DATASTREAM_INT)
 */
 };
-
 XivelyFeed feed(157388679, datastreams, 12); // numero de datastreams
 EthernetClient client;
 XivelyClient xivelyclient(client);
-char xivelyKey[]= "XXXXXX"; // replace your xively api key here// assign a MAC address for the ethernet controller.
+char xivelyKey[]= "IztIl4jRHL0vLd6fFkwnXwLZ7YbuAi6jmr8kAXPO5RxrDkQQ"; // replace your xively api key here// assign a MAC address for the ethernet controller.
+
 // Newer Ethernet shields have a MAC address printed on a sticker on the shield
 // fill in your address here:
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
@@ -425,11 +414,37 @@ byte ip[] = { 192, 168, 1, 15 };
 //IPAddress ip(192,168,1, 15); // fill in an available IP address on your network here for manual configuration
 int xivelyReturn = 0;    // Result Return code from data send
 
+
+//Ethernet Port
+//EthernetServer server = EthernetServer(54322); //default html port 80
+
+
+//*****************************************************************************************
+//************************ Declaracion variables webserver ******************
+//*****************************************************************************************
+
+//Html page refresh
+int refreshPage = 15; //default is 10sec. 
+//Beware that if you make it refresh too fast, the page could become inacessable.
+
+int outp = 0;
+boolean printLastCommandOnce = false;
+boolean printButtonMenuOnce = false;
+boolean initialPrint = true;
+String allOn = "";
+String allOff = "";
+boolean reading = false;
+boolean outputStatus[10]; //Create a boolean array for the maximum ammount.
+String rev = "V4.06";
+unsigned long timeConnectedAt;
+
+
+
 //*****************************************************************************************
 //************************** tweeter ******************************************
 //*****************************************************************************************
-
-Twitter twitter("XXXXX"); // Your Token to Tweet (get it from http://arduino-tweet.appspot.com/)
+boolean cuenta_twitter = true; // modificar esto a false en caso de no tener cuenta en twiiter para el aviso de las alarmas
+Twitter twitter("1692134557-fzSysgvsLE9DMKAQEFt0aashH7QGFAqZMe8VrY1"); // Your Token to Tweet (get it from http://arduino-tweet.appspot.com/)
 
 byte msg_enviado = 0x0;
 // byte 1 = sistema ok
@@ -504,10 +519,6 @@ int temporizador_3_ativado_temp2;
 int temporizador_4_ativado_temp2;
 int temporizador_5_ativado_temp2;
 
-//*****************************************************************************************
-//********************************* Estado del rellenado  *********************************
-//*****************************************************************************************
-boolean rellenador_activo =true;
 
 
 //*****************************************************************************************

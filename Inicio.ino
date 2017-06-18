@@ -196,13 +196,13 @@ void mainScreen(boolean refreshAll=false)
   if (bitRead(status_parametros,0) == true)           //Estado ventilador disipador
   {
     myGLCD.setColor(0, 130, 255);
-    myGLCD.printNumI(LedToPercent(fanSpeed), 316, 42); // ventilador conectado
-    myGLCD.print("%", 340, 42);
+    myGLCD.print("ACTIVADO", 316, 42); // ventilador conectado
+    //myGLCD.print("%", 340, 42);
   }
   else 
   {
     myGLCD.setColor(0, 255, 0);
-    myGLCD.print("OFF", 316, 42);          // ventilador desconectado
+    myGLCD.print("OFF     ", 316, 42);          // ventilador desconectado
   }
   if (bitRead(status_parametros,1) == true) //Estado del calentador
   {

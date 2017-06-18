@@ -5,7 +5,7 @@ void setup()
 //  Serial2.begin(38400); //Inicia a comunicação com a  porta serial 2 onde estão conectados os "stamps".
 
   Ethernet.begin(mac, ip);
-  servidorArduino.begin();
+  server.begin();
   pinMode(ledPinWhite, OUTPUT);
   pinMode(ledPinMoon, OUTPUT); 
   pinMode(calentadorPin, OUTPUT);
@@ -24,6 +24,9 @@ void setup()
   pinMode (temporizador3, OUTPUT);
   pinMode (temporizador4, OUTPUT);
   pinMode (temporizador5, OUTPUT);
+  pinMode (bomba, OUTPUT);
+  pinMode(nivel_acu, INPUT);
+  pinMode(nivel_dep, INPUT);  
    
   myStepper.setSpeed(60); // set the speed at 60 rpm
   

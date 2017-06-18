@@ -57,15 +57,27 @@ void checkTempC()
 
 
   // **************** Gestion del ventilador para refrigeracion del agua  *******
+  /*
+  if (tempC > setTempC +2)
+     {
+      analogWrite(fanPin, ); 
+      bitWrite(status_parametros,0,1);   //ventilador activado
+     }
+     else
+     {
+       analogWrite(fanPin, 0);
+      (bitWrite(status_parametros,0,0)); //ventilador apagado
+        } 
+  */     
   
       const int HtempMin = setTempC +2;    // Declara la temperatura para iniciar el funcionamiento de la velocidad del ventilador para refrigerar el agua sera 5º mas que la deseada 
       const int HtempMax = setTempC +4;    // Declara que el ventilador debe estar a su maxima velocidad cuando el agua se encuentre 8 grados por encima de la temperatura deseada
               
       int tempval = int(tempC * 10);     
-      fanSpeed = map(tempval, (HtempMin * 10), (HtempMax * 10), 0, 255);       //---------Control de velocidad de los ventiladores del disipador
+      fanSpeed = map(tempval, (HtempMin * 10), (HtempMax * 10), 240, 255);       //---------Control de velocidad de los ventiladores del disipador
 
       
-      if (fanSpeed < 0)                      
+      if (fanSpeed < 240)                      
       {
         fanSpeed = 0;
        }
@@ -79,17 +91,17 @@ void checkTempC()
       analogWrite(fanPin, fanSpeed);
       
       Serial.println("");
-      Serial.print ("HtempMin: ");
-      Serial.print (HtempMin);
+      Serial.print ("Temp Agua: ");
+      Serial.print (tempC);
       Serial.println("");       
       Serial.print ("fanSpeed: ");
       Serial.print (fanSpeed);
       Serial.println("");       
-      Serial.print ("tempval: ");
-      Serial.print (tempval);      
+      Serial.print ("temp deseada: ");
+      Serial.print (setTempC);      
       Serial.println(""); 
  
-      if (tempH < HtempMin )
+      if (tempC < HtempMin )
         {
         (bitWrite(status_parametros,0,0)); //ventilador apagado
         }
@@ -97,6 +109,7 @@ void checkTempC()
       {
       bitWrite(status_parametros,0,1);   //ventilador activado
       }  
+      
 }
 
 void check_PH_aquario()

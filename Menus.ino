@@ -252,10 +252,13 @@ void rellenador()
 
   if(rellenador_activo == true)
   {
-    setFont(LARGE, 255, 255, 255, 0, 0, 0);
-    myGLCD.printNumF(dose_dosadora_1_manual,1, 130, 140);
-    setFont(SMALL, 255, 255, 255, 0, 0, 0);
-
+      strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[40])));
+      printButton_verde(buffer, domI[0]-20, domI[1], domI[2]+20, domI[3]); // Verde > ON
+  }
+  else
+  {
+      strcpy_P(buffer, (char*)pgm_read_word_near(&(tabela_textos[152])));
+      printButton_vermelho(buffer, domI[0]-20, domI[1], domI[2]+20, domI[3]); // Rojo > OFF 
   }
 } 
  

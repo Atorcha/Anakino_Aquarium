@@ -9,13 +9,15 @@ void loop()
   if (myTouch.dataAvailable())  
   { 
     processMyTouch();  // Verifica si se pulsa la pantalla.
+    Serial.print("pulsa pantalla");
   }
 
 
   if((Ethernet_Shield == true))  // Condiciones para el envio a xively.com.
   {
     xively (); // Envia datos a xively
-    netio();   // Comunica los datos con netio
+   // netio();   // Comunica los datos con netio
+    checkForClient(); // Comprueba si alguien ha acceddio a la webserver
   } 
  
    if(dosadoras == true) // Verifica y ejecuta las dosificadoras.
@@ -28,14 +30,6 @@ void loop()
     check_dosagem_personalizada_6(); // Dosadora 6 - Dosagem personalizado
   }  
 
-  
-
-  if (dispScreen != 22)
-  {
-    teste_em_andamento = false;
-
-  }
-
   if (millis() - previousMillis > 5000)    // Verifica las funciones cada 5 segundos.
   {
     Serial.print("Verifica funciones");
@@ -45,6 +39,7 @@ void loop()
     min_cnt = NumMins(t.hour,t.min); // Atualiza intervalo para la potencia de leds
     check_PH_aquario(); // Verifica el pH de acuario.    
     check_temporizadores(); // Verifica temporizadores
+    check_rellenador(); // comprueba el rellenador
     feedingTimeOutput();   // Comprueba si hay que dar de comer a los peces
 
 
