@@ -57,9 +57,6 @@ void loop()
     Serial.print ("Memoria libre:");
     Serial.println (FreeRam());
     Serial.println("");      //imprime otro salto de linea
-    Serial.print ("Modo AUTO Luces: "); 
-    Serial.print ( w_out * pwm_percent/100);
-    Serial.println("");      //imprime otro salto de linea
     
   }
 

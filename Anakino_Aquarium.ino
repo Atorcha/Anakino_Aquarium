@@ -436,7 +436,7 @@ boolean reading = false;
 boolean outputStatus[10]; //Create a boolean array for the maximum ammount.
 String rev = "V4.06";
 unsigned long timeConnectedAt;
-
+String aire_web_estado = "OFF";   //Variable de tipo string que almacena el estado del Led (inicialmente "OFF")
 
 
 //*****************************************************************************************
