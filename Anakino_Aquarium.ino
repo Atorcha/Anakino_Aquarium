@@ -1,5 +1,4 @@
 
-/*
 //
 //******************** Anakino_Aquarium es un codigo para arduino basado en Ferduino para adaptarlo a agua dulce y con añadidos.
 //
@@ -52,7 +51,7 @@
 // mas sem qualquer garantia; sem mesmo a garantia implícita de
 // comercialização ou propósito particular. Consulte o
 // GNU General Public License para mais detalhes.
-*/
+
 //*************************************************************************************************
 //*************** Biliotecas utilizadas ***********************************************************
 //*************************************************************************************************
@@ -405,7 +404,7 @@ XivelyDatastream(data17, strlen(data17), DATASTREAM_INT)
 XivelyFeed feed(157388679, datastreams, 12); // numero de datastreams
 EthernetClient client;
 XivelyClient xivelyclient(client);
-char xivelyKey[]= "XXXXXXXXXX"; // replace your xively api key here// assign a MAC address for the ethernet controller.
+char xivelyKey[]= "XXXXX"; // replace your xively api key here// assign a MAC address for the ethernet controller.
 
 // Newer Ethernet shields have a MAC address printed on a sticker on the shield
 // fill in your address here:
@@ -444,7 +443,7 @@ unsigned long timeConnectedAt;
 //************************** tweeter ******************************************
 //*****************************************************************************************
 boolean cuenta_twitter = false; // modificar esto a false en caso de no tener cuenta en twiiter para el aviso de las alarmas
-Twitter twitter("XXXXXXXXXXXXX"); // Your Token to Tweet (get it from http://arduino-tweet.appspot.com/)
+Twitter twitter("XXXXX"); // Your Token to Tweet (get it from http://arduino-tweet.appspot.com/)
 
 byte msg_enviado = 0x0;
 // byte 1 = sistema ok

@@ -5,7 +5,7 @@
 //
 void checkForClient()
 {
-   EthernetClient client = server.available();
+ //  EthernetClient client = server.available();
   if (client) {
     Serial.println("new client");
     // an http request ends with a blank line
@@ -163,7 +163,7 @@ void checkForClient()
           client.println("<body>");
           client.println("<div class=\"view\">");
           client.println("    <div class=\"header-wrapper\">");
-          client.println("      <h1>Ethernet Switching</h1>");
+          client.println("      <h1>Anakino_aquarium_v 1.0</h1>");
           client.println("    </div>");
        
           client.println("<H2>");
